@@ -58,7 +58,7 @@ export function HeroSlideshow({ slides, intervalMs = 6000 }: Props) {
 
   return (
     <section
-      className="relative w-full h-screen -mt-16 overflow-hidden bg-navy-deep"
+      className="force-light relative w-full h-screen -mt-16 overflow-hidden bg-navy-deep"
       aria-roledescription="carousel"
       aria-label="Portfolio hero slideshow"
     >

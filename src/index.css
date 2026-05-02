@@ -135,6 +135,23 @@
     background: hsl(var(--gold) / 0.35);
     color: hsl(var(--ink));
   }
+
+  /* Sections that must stay "light-mode styled" regardless of theme
+     (hero slideshow, starry bands, navy footer). Re-pin tokens to the
+     light-mode values inside this scope. */
+  .force-light {
+    --paper: 38 40% 96%;
+    --paper-deep: 36 28% 90%;
+    --ink: 220 60% 9%;
+    --ink-soft: 220 30% 22%;
+    --background: 38 35% 95%;
+    --foreground: 220 60% 9%;
+    --border: 36 20% 80%;
+    --muted-foreground: 220 20% 38%;
+    --gold: 41 55% 52%;
+    --gold-bright: 43 70% 60%;
+  }
+
 }
 
 @layer components {
