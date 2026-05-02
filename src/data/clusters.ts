@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   User, GraduationCap, Atom, Cpu, BookOpen, Music2, Film,
   Code2, Palette, Users, Trophy, FileText, Compass, Mail, Sparkles,
-  Brain, Wand2, Heart, Archive,
+  Brain, Wand2, Heart, Archive, Shapes,
 } from "lucide-react";
 
 export type Subpage = { slug: string; label: string; kind?: "overview" | "highlights" | "evidence" | "media" | "reflection" | "related" | "topic" };
@@ -17,23 +17,26 @@ export type Cluster = {
   subpages: Subpage[];
 };
 
-/* The fractal pattern: every cluster carries the same six rails. */
-const STD: Subpage[] = [
+/* The fractal pattern: visual-first ordering — Overview → Highlights → Media → Topics → Evidence → Reflection → Related. */
+const HEAD: Subpage[] = [
   { slug: "overview", label: "Overview", kind: "overview" },
   { slug: "highlights", label: "Highlights", kind: "highlights" },
-  { slug: "evidence", label: "Evidence", kind: "evidence" },
   { slug: "media", label: "Media", kind: "media" },
+];
+const TAIL: Subpage[] = [
+  { slug: "evidence", label: "Evidence", kind: "evidence" },
   { slug: "reflection", label: "Reflection", kind: "reflection" },
   { slug: "related", label: "Related", kind: "related" },
 ];
 
 const withTopics = (...topics: string[]): Subpage[] => [
-  ...STD,
+  ...HEAD,
   ...topics.map((t) => ({
     slug: t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
     label: t,
     kind: "topic" as const,
   })),
+  ...TAIL,
 ];
 
 export const CLUSTERS: Cluster[] = [
@@ -120,6 +123,11 @@ export const CLUSTERS: Cluster[] = [
     legacyOverviewPath: "/contact",
     subpages: withTopics("Channels", "Links"),
   },
+  {
+    num: "15", slug: "curiosities", label: "Curiosities + Odds & Ends", icon: Shapes,
+    tagline: "Karate belts, abacus medals, side quests, half-wins, oddities.",
+    subpages: withTopics("Karate", "Abacus", "Side Quests", "Random Wins", "Childhood Trophies"),
+  },
 ];
 
 export const PROOF_CLUSTER = {
@@ -166,9 +174,9 @@ export const GRAND_GROUPS: GrandGroup[] = [
   {
     slug: "dossier",
     label: "Dossier & Direction",
-    tagline: "Receipts and the road ahead.",
+    tagline: "Receipts, oddities, and the road ahead.",
     icon: Archive,
-    clusterSlugs: ["vault", "vision", "contact"],
+    clusterSlugs: ["vault", "curiosities", "vision", "contact"],
   },
 ];
 

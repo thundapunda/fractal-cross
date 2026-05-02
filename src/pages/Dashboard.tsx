@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Sparkles, Star, Compass, ChevronDown } from "lucide-react";
+import { ArrowUpRight, Sparkles, Star, Compass } from "lucide-react";
 import { PageShell } from "@/components/SiteChrome";
 import { GRAND_GROUPS, PROOF_CLUSTER, findCluster } from "@/data/clusters";
 import heroPortrait from "@/assets/hero-portrait.jpg";
@@ -11,16 +10,17 @@ const stats = [
   ["IN → CA", "Trajectory"],
   ["100+", "Recognitions"],
   ["3", "Languages"],
-  ["5+", "Disciplines"],
+  ["12", "Disciplines"],
 ];
 
 const featured = [
-  { tag: "Achievement", title: "FRC Team 7700", to: "/robotics#frc-team-7700" },
-  { tag: "Academic", title: "AP Track + Olympiads", to: "/academics#awards-vault" },
+  { tag: "Achievement", title: "FRC Team 7700", to: "/robotics#highlights" },
+  { tag: "Academic", title: "AP Track + Olympiads", to: "/academics#highlights" },
   { tag: "Artistic", title: "Child Artist reel", to: "/acting#child-artist-archive" },
   { tag: "Technical", title: "Zionaxelle.com", to: "/tech#zionaxelle" },
   { tag: "Performance", title: "Hindustani vocal", to: "/music#vocal-performance" },
   { tag: "Leadership", title: "Cultural integration", to: "/leadership#cultural-integration" },
+  { tag: "Curiosity", title: "Karate + Abacus", to: "/curiosities" },
 ];
 
 const startHere = [
@@ -29,71 +29,55 @@ const startHere = [
   { label: "Zionaxelle", to: "/tech#zionaxelle" },
   { label: "Child artist playlist", to: "/acting#child-artist-archive" },
   { label: "Endless Portals podcast", to: "/writing#podcast" },
-  { label: "Writing sample", to: "/writing#writing-samples" },
+  { label: "Random wins vault", to: "/curiosities" },
 ];
 
-function GrandGroupBlock({
-  group, open, onToggle,
-}: { group: typeof GRAND_GROUPS[number]; open: boolean; onToggle: () => void }) {
+function GrandGroupBlock({ group }: { group: typeof GRAND_GROUPS[number] }) {
   const GI = group.icon;
   return (
-    <div className="border-t border-border">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center gap-4 py-6 text-left group"
-        aria-expanded={open}
-      >
+    <div className="border-t border-border py-8">
+      <header className="flex items-baseline gap-4 mb-5">
         <GI className="w-4 h-4 text-gold shrink-0" />
         <div className="flex-1">
           <p className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-gold">Grand Group</p>
-          <h3 className="font-display text-2xl md:text-3xl text-ink group-hover:text-gold transition-colors">
-            {group.label}
-          </h3>
+          <h3 className="font-display text-2xl md:text-3xl text-ink">{group.label}</h3>
           <p className="text-xs text-ink-soft mt-1">{group.tagline}</p>
         </div>
-        <ChevronDown className={`w-4 h-4 text-ink-soft transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      <div className={`grid transition-all duration-500 ${open ? "grid-rows-[1fr] opacity-100 pb-8" : "grid-rows-[0fr] opacity-0"}`}>
-        <div className="overflow-hidden">
-          <ol className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-border">
-            {group.clusterSlugs.map((cs) => {
-              const c = findCluster(cs);
-              if (!c) return null;
-              const I = c.icon;
-              return (
-                <li key={cs} className="bg-paper">
-                  <Link to={`/${c.slug}`} className="group/tile block p-5 h-full hover:bg-navy-deep hover:text-paper transition-colors duration-500">
-                    <div className="flex items-start justify-between mb-8">
-                      <I className="w-5 h-5 text-gold" />
-                      <span className="font-mono text-[0.6rem] tracking-widest text-ink-soft group-hover/tile:text-paper/60">{c.num}</span>
-                    </div>
-                    <h4 className="font-display text-xl leading-tight">{c.label}</h4>
-                    <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft group-hover/tile:text-paper/60 mt-2 line-clamp-2">
-                      {c.tagline}
-                    </p>
-                  </Link>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      </div>
+        <span className="font-mono text-[0.6rem] tracking-widest text-ink-soft">
+          {group.clusterSlugs.length} clusters
+        </span>
+      </header>
+      <ol className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-border">
+        {group.clusterSlugs.map((cs) => {
+          const c = findCluster(cs);
+          if (!c) return null;
+          const I = c.icon;
+          return (
+            <li key={cs} className="bg-paper">
+              <Link
+                to={`/${c.slug}`}
+                className="group/tile block p-5 h-full hover:bg-navy-deep hover:text-paper transition-colors duration-500"
+              >
+                <div className="flex items-start justify-between mb-8">
+                  <I className="w-5 h-5 text-gold" />
+                  <span className="font-mono text-[0.6rem] tracking-widest text-ink-soft group-hover/tile:text-paper/60">
+                    {c.num}
+                  </span>
+                </div>
+                <h4 className="font-display text-xl leading-tight">{c.label}</h4>
+                <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft group-hover/tile:text-paper/60 mt-2 line-clamp-2">
+                  {c.tagline}
+                </p>
+              </Link>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }
 
-const Dashboard = () => {
-  const [openSet, setOpenSet] = useState<Set<string>>(new Set());
-  const toggle = (slug: string) =>
-    setOpenSet((prev) => {
-      const next = new Set(prev);
-      next.has(slug) ? next.delete(slug) : next.add(slug);
-      return next;
-    });
-  const allOpen = openSet.size === GRAND_GROUPS.length;
-  const setAll = (open: boolean) =>
-    setOpenSet(open ? new Set(GRAND_GROUPS.map((g) => g.slug)) : new Set());
-  return (
+const Dashboard = () => (
   <PageShell>
     {/* Banner */}
     <section className="container pt-10 pb-12">
@@ -149,28 +133,16 @@ const Dashboard = () => {
       </div>
     </section>
 
-    {/* App grid */}
+    {/* App grid — always expanded */}
     <section className="container pb-14">
       <div className="flex items-baseline gap-3 mb-6">
         <Sparkles className="w-4 h-4 text-gold" />
         <span className="label-gold">Grand Groups · All Clusters</span>
         <span className="flex-1 h-px bg-border" />
-        <button
-          onClick={() => setAll(!allOpen)}
-          className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-ink-soft hover:text-gold transition-colors flex items-center gap-2"
-        >
-          {allOpen ? "Collapse all" : "Expand all"}
-          <ChevronDown className={`w-3 h-3 transition-transform ${allOpen ? "rotate-180" : ""}`} />
-        </button>
       </div>
       <div>
         {GRAND_GROUPS.map((g) => (
-          <GrandGroupBlock
-            key={g.slug}
-            group={g}
-            open={openSet.has(g.slug)}
-            onToggle={() => toggle(g.slug)}
-          />
+          <GrandGroupBlock key={g.slug} group={g} />
         ))}
         {/* Proof of Curiosity standalone */}
         <div className="border-t border-border py-6">
@@ -208,7 +180,6 @@ const Dashboard = () => {
       </div>
     </section>
   </PageShell>
-  );
-};
+);
 
 export default Dashboard;

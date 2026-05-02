@@ -1,12 +1,13 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import {
-  ArrowUpRight, FileText, Image as ImgIcon, Sparkles, Quote, Link2,
-  ChevronDown, BookOpen,
+  ArrowUpRight, FileText, Image as ImgIcon, Sparkles, Quote, Link2, BookOpen,
 } from "lucide-react";
 import { ClusterShell } from "./ClusterShell";
-import { Card, Placeholder, PullQuote, Marginalia, Embed, Stat } from "./Editorial";
+import { PullQuote, Marginalia } from "./Editorial";
+import { Bento, type BentoItem } from "./Bento";
 import { CLUSTERS, findCluster, type Cluster, type Subpage } from "@/data/clusters";
+import heroFallback from "@/assets/atmos-notebook.jpg";
 
 function SubpageHeader({ kicker, num, title, lede }: { kicker: string; num: string; title: string; lede?: string }) {
   return (
@@ -22,50 +23,21 @@ function SubpageHeader({ kicker, num, title, lede }: { kicker: string; num: stri
   );
 }
 
-/** Collapsible section: everything in view, expandable for comfort. */
+/** Always-expanded rail: no toggle, just an anchored block with header + content. */
 type IconCmp = React.ComponentType<{ className?: string }>;
 
-function Section({
-  id, icon: Icon, label, title, defaultOpen = true, children,
-}: { id: string; icon: IconCmp; label: string; title: string; defaultOpen?: boolean; children: ReactNode }) {
-  const [open, setOpen] = useState(defaultOpen);
-  useEffect(() => {
-    const handler = () => {
-      if (window.location.hash === `#${id}`) {
-        setOpen(true);
-        setTimeout(() => {
-          document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 50);
-      }
-    };
-    handler();
-    window.addEventListener("hashchange", handler);
-    return () => window.removeEventListener("hashchange", handler);
-  }, [id]);
+function Rail({
+  id, icon: Icon, label, title, children,
+}: { id: string; icon: IconCmp; label: string; title: string; children: ReactNode }) {
   return (
-    <section id={id} className="px-4 md:px-12 border-t border-border scroll-mt-32">
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center gap-3 py-6 md:py-8 text-left group"
-        aria-expanded={open}
-      >
+    <section id={id} className="px-4 md:px-12 border-t border-border scroll-mt-32 py-10 md:py-14">
+      <header className="flex items-center gap-3 mb-8">
         <Icon className="w-4 h-4 text-gold shrink-0" />
         <span className="label-gold">{label}</span>
         <span className="flex-1 h-px bg-border" />
-        <h2 className="font-display text-xl md:text-2xl text-ink group-hover:text-gold transition-colors text-right">
-          {title}
-        </h2>
-        <ChevronDown
-          className={`w-4 h-4 text-ink-soft transition-transform shrink-0 ${open ? "rotate-180" : ""}`}
-        />
-      </button>
-      <div
-        className={`grid transition-all duration-500 ease-out ${
-          open ? "grid-rows-[1fr] opacity-100 pb-10 md:pb-14" : "grid-rows-[0fr] opacity-0"
-        }`}
-      >
-        <div className="overflow-hidden">{children}</div>
-      </div>
+        <h2 className="font-display text-xl md:text-2xl text-ink text-right">{title}</h2>
+      </header>
+      <div>{children}</div>
     </section>
   );
 }
@@ -79,7 +51,7 @@ function RelatedRail({ clusterSlug }: { clusterSlug: string }) {
         return (
           <Link
             key={c.slug}
-            to={`/${c.slug}/overview`}
+            to={`/${c.slug}`}
             className="group dossier-card p-5 hover-lift flex items-start gap-3"
           >
             <I className="w-4 h-4 text-gold mt-1 shrink-0" />
@@ -96,92 +68,129 @@ function RelatedRail({ clusterSlug }: { clusterSlug: string }) {
   );
 }
 
-/** Bodies (no Block wrapper — Section provides framing). */
+/* -------------------- Inner renderers (bento everywhere it makes sense) -------------------- */
+
+/** Visual-first Overview: hero image + tagline + featured trio. */
 function OverviewInner({ cluster }: { cluster: Cluster }) {
+  const trio: BentoItem[] = [
+    {
+      id: "trio-1", size: "md", eyebrow: "Signature win",
+      title: "The headline achievement",
+      blurb: "Replace with the single most impressive thing in this cluster.",
+      meta: "TODO · most recent or biggest",
+    },
+    {
+      id: "trio-2", size: "md", eyebrow: "Origin",
+      title: "Where it started",
+      blurb: "The first spark — when, where, and why this began.",
+      meta: "TODO",
+    },
+    {
+      id: "trio-3", size: "md", eyebrow: "What's next",
+      title: "The next chapter",
+      blurb: "What I'm currently building inside this cluster.",
+      meta: "TODO",
+    },
+  ];
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <Stat value={String(cluster.subpages.length)} label="Sub-rails" />
-      <Stat value="6" label="Fractal rails" />
-      <Stat value={cluster.num} label="Cluster #" />
-      <Stat value="∞" label="Open threads" />
+    <div className="space-y-8">
+      {/* Visual-first hero */}
+      <div className="relative overflow-hidden border border-border aspect-[21/9]">
+        <img
+          src={heroFallback}
+          alt={`${cluster.label} — atmospheric hero`}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/60 to-navy-deep/10" />
+        <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12 text-paper">
+          <p className="label-gold mb-3">§ {cluster.num} · {cluster.label}</p>
+          <h2 className="font-display text-3xl md:text-6xl leading-tight max-w-3xl text-balance">
+            {cluster.tagline}
+          </h2>
+          <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-paper/60">
+            {cluster.subpages.filter((s) => s.kind === "topic").length} topic threads ·
+            {" "}{cluster.subpages.filter((s) => s.kind !== "topic").length} fractal rails
+          </p>
+        </div>
+      </div>
+      <Bento items={trio} />
     </div>
   );
 }
 
-function HighlightsInner() {
-  return (
-    <div className="grid md:grid-cols-2 gap-5">
-        {[1,2,3,4,5,6].map((n) => (
-          <Card key={n} eyebrow={`Highlight ${n}`} title={`Featured item ${n}`} meta="TODO · Replace with real entry">
-            One paragraph: what it is, when it happened, why it matters, what came of it.
-          </Card>
-        ))}
-    </div>
-  );
+function HighlightsInner({ cluster }: { cluster: Cluster }) {
+  const items: BentoItem[] = [
+    { id: "h1", size: "xl", eyebrow: "Featured", title: `${cluster.label} — best of`, blurb: "The anchor item. Big, bold, the one I'd lead with in a conversation.", image: heroFallback, meta: "TODO · replace" },
+    { id: "h2", size: "md", eyebrow: "Highlight", title: "Second favourite", blurb: "Strong supporting work — different in tone from the lead." },
+    { id: "h3", size: "md", eyebrow: "Highlight", title: "Recent win", blurb: "Something fresh — within the last 6 months." },
+    { id: "h4", size: "lg", eyebrow: "Highlight", title: "The under-rated one", blurb: "A quieter piece I'm proud of — context unlocks why.", image: heroFallback },
+    { id: "h5", size: "md", eyebrow: "Highlight", title: "Collaboration", blurb: "Made with someone whose taste I trust." },
+    { id: "h6", size: "md", eyebrow: "Highlight", title: "The hard one", blurb: "Almost broke me. Worth it." },
+  ];
+  return <Bento items={items} />;
 }
 
 function EvidenceInner() {
+  const items: BentoItem[] = Array.from({ length: 8 }).map((_, i) => ({
+    id: `e${i}`,
+    size: i === 0 ? "lg" : i === 3 ? "wide" : "sm",
+    eyebrow: "Document",
+    title: `Evidence ${i + 1}`,
+    blurb: "Drop a scan, certificate, transcript, or PDF here.",
+    meta: "TODO · who issued · when",
+  }));
   return (
-    <>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <Placeholder key={i} label={`Evidence document ${i+1} — drop image, scan, or PDF`} />
-        ))}
-      </div>
+    <div className="space-y-6">
+      <Bento items={items} />
       <Marginalia>Each evidence item should answer: who issued it, when, what it certifies.</Marginalia>
-    </>
+    </div>
   );
 }
 
 function MediaInner() {
-  return (
-    <>
-      <div className="grid sm:grid-cols-2 gap-4 mb-8">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Placeholder key={i} label={`Media item ${i+1}`} ratio="aspect-video" />
-        ))}
-      </div>
-      <Embed title="Embed slot" todo="YouTube, Vimeo, podcast feed, or external player URL goes here." />
-    </>
-  );
+  const items: BentoItem[] = [
+    { id: "m1", size: "xl", eyebrow: "Feature", title: "Headline media", blurb: "Photo, reel, or video that captures the work.", image: heroFallback },
+    { id: "m2", size: "md", eyebrow: "Photo", title: "Behind the scenes" },
+    { id: "m3", size: "md", eyebrow: "Audio", title: "Listen to it" },
+    { id: "m4", size: "wide", eyebrow: "Embed", title: "External player slot", blurb: "YouTube · Vimeo · podcast feed · external player." },
+  ];
+  return <Bento items={items} />;
 }
 
 function ReflectionInner() {
   return (
     <div className="max-w-3xl space-y-6">
-        <p className="font-display text-xl text-ink leading-relaxed drop-cap">
-          A short reflection paragraph. What was hard, what surprised me, what I want to keep doing,
-          and what I would no longer do the same way.
-        </p>
-        <PullQuote>One honest sentence I learned the hard way.</PullQuote>
+      <p className="font-display text-xl text-ink leading-relaxed drop-cap">
+        A short reflection paragraph. What was hard, what surprised me, what I want to keep doing,
+        and what I would no longer do the same way.
+      </p>
+      <PullQuote>One honest sentence I learned the hard way.</PullQuote>
     </div>
   );
 }
 
 function TopicInner({ topicLabel }: { topicLabel: string }) {
+  const items: BentoItem[] = [
+    { id: "t1", size: "xl", eyebrow: "Anchor", title: `${topicLabel} — the headline`, blurb: "The single thing someone should know about this thread.", image: heroFallback },
+    { id: "t2", size: "md", eyebrow: "Item", title: "Anchor 2", blurb: "Replace with the real entry." },
+    { id: "t3", size: "md", eyebrow: "Item", title: "Anchor 3", blurb: "Replace with the real entry." },
+    { id: "t4", size: "lg", eyebrow: "Media", title: `${topicLabel} — visual`, blurb: "Photo, video, or scan that grounds this topic.", image: heroFallback },
+    { id: "t5", size: "md", eyebrow: "Item", title: "Anchor 4", blurb: "Replace with the real entry." },
+  ];
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <p className="max-w-3xl text-ink-soft text-lg leading-relaxed font-display italic">
         A clear statement of scope for <strong className="text-ink not-italic">{topicLabel}</strong>: what's in,
         what's out, and why it deserves its own thread.
       </p>
-      <div className="grid md:grid-cols-2 gap-5">
-        {[1,2,3,4].map((n) => (
-          <Card key={n} eyebrow="Item" title={`Anchor ${n}`} meta="TODO">Replace with the real entry.</Card>
-        ))}
-      </div>
-      <div className="grid sm:grid-cols-2 gap-4">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <Placeholder key={i} label={`${topicLabel} — media ${i+1}`} ratio="aspect-video" />
-        ))}
-      </div>
+      <Bento items={items} />
     </div>
   );
 }
 
 const KIND_META: Record<string, { icon: IconCmp; label: string; title: (cl: string) => string }> = {
   overview:    { icon: Sparkles, label: "Overview",   title: (cl) => `${cl} — at a glance` },
-  highlights:  { icon: Sparkles, label: "Highlights", title: () => "Best-of, six selected items" },
+  highlights:  { icon: Sparkles, label: "Highlights", title: () => "Best-of, hand-picked" },
   evidence:    { icon: FileText, label: "Evidence",   title: () => "Documents, scores, certificates" },
   media:       { icon: ImgIcon,  label: "Media",      title: () => "Photos, video, audio, embeds" },
   reflection:  { icon: Quote,    label: "Reflection", title: () => "What I learned" },
@@ -192,7 +201,7 @@ const KIND_META: Record<string, { icon: IconCmp; label: string; title: (cl: stri
 function renderInner(s: Subpage, c: Cluster): ReactNode {
   switch (s.kind) {
     case "overview":   return <OverviewInner cluster={c} />;
-    case "highlights": return <HighlightsInner />;
+    case "highlights": return <HighlightsInner cluster={c} />;
     case "evidence":   return <EvidenceInner />;
     case "media":      return <MediaInner />;
     case "reflection": return <ReflectionInner />;
@@ -202,18 +211,20 @@ function renderInner(s: Subpage, c: Cluster): ReactNode {
   }
 }
 
-/** Single-page cluster view: every rail rendered as a collapsible section. */
+/** Single-page cluster view: every rail rendered as an always-expanded section. */
 export function FractalPage() {
   const { cluster = "", sub } = useParams();
   const c = findCluster(cluster);
 
-  // If a sub is requested, drop a hash so the matching Section auto-opens & scrolls.
+  // If a sub is requested, drop a hash so the matching Rail scrolls into view.
   useEffect(() => {
     if (!c) return;
     if (sub && sub !== "overview") {
       window.location.hash = sub;
+      setTimeout(() => {
+        document.getElementById(sub)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
     } else if (!sub) {
-      // strip hash on bare overview
       if (window.location.hash) history.replaceState(null, "", window.location.pathname);
     }
   }, [sub, c]);
@@ -233,16 +244,15 @@ export function FractalPage() {
         const isTopic = s.kind === "topic";
         const title = isTopic ? s.label : meta.title(c.label);
         return (
-          <Section
+          <Rail
             key={s.slug}
             id={s.slug}
             icon={meta.icon}
             label={isTopic ? "Topic" : meta.label}
             title={title}
-            defaultOpen={s.kind === "overview" || s.kind === "highlights"}
           >
             {renderInner(s, c)}
-          </Section>
+          </Rail>
         );
       })}
       <div className="h-24" />
