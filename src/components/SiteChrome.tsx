@@ -99,7 +99,7 @@ export const SiteNav = () => {
           className="absolute inset-0 bg-navy-deep/85 backdrop-blur-sm"
           onClick={() => setOpen(false)}
         />
-        <aside className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-paper shadow-2xl overflow-y-auto">
+          <aside className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-paper text-ink shadow-2xl overflow-y-auto">
           <div className="flex items-center justify-between p-6 border-b border-border">
             <span className="eyebrow">Site Index</span>
             <button onClick={() => setOpen(false)} aria-label="Close menu">
@@ -271,7 +271,7 @@ export const SiteFooter = () => (
 );
 
 export const PageShell = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen bg-paper text-ink">
+  <div className="min-h-screen bg-paper text-foreground">
     <SiteNav />
     <main className="pt-16">{children}</main>
     <SiteFooter />
