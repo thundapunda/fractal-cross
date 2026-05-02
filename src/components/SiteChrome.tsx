@@ -59,29 +59,31 @@ export const SiteNav = () => {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-paper/90 backdrop-blur-md border-b border-border shadow-[0_8px_24px_-12px_hsl(220_60%_9%/0.25)]"
+            ? "bg-navy-deep/85 backdrop-blur-md border-b border-paper/10 shadow-[0_8px_24px_-12px_hsl(220_60%_4%/0.5)]"
             : "bg-navy-deep/55 backdrop-blur-md border-b border-paper/10 shadow-[0_8px_24px_-12px_hsl(220_60%_4%/0.5)]"
         }`}
       >
         <div className="container flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-3 group">
-            <span className={`font-mono text-[0.65rem] uppercase tracking-[0.3em] text-gold ${scrolled ? "[text-shadow:0_1px_2px_hsl(220_60%_9%/0.18)]" : "[text-shadow:0_2px_8px_hsl(220_60%_4%/0.55),0_1px_2px_hsl(220_60%_4%/0.7)]"}`}>GG</span>
-            <span className={`hidden sm:inline font-display text-lg ${scrolled ? "text-ink [text-shadow:0_1px_2px_hsl(220_60%_9%/0.18)]" : "text-paper [text-shadow:0_2px_8px_hsl(220_60%_4%/0.55),0_1px_2px_hsl(220_60%_4%/0.7)]"}`}>
+            <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-gold [text-shadow:0_2px_8px_hsl(220_60%_4%/0.65),0_1px_2px_hsl(220_60%_4%/0.8)]">
+              GG
+            </span>
+            <span className="hidden sm:inline font-display text-lg text-paper [text-shadow:0_2px_8px_hsl(220_60%_4%/0.65),0_1px_2px_hsl(220_60%_4%/0.8)]">
               Geetika Gehlot
             </span>
           </Link>
 
           <div className="flex items-center gap-3">
-            <ThemeToggle className={`${scrolled ? "shadow-[0_2px_8px_-2px_hsl(220_60%_9%/0.15)]" : "shadow-[0_6px_18px_-4px_hsl(220_60%_4%/0.55)] text-paper border-paper/30 hover:text-gold hover:border-gold"}`} />
+            <ThemeToggle className="!text-paper !border-paper/30 hover:!text-gold hover:!border-gold shadow-[0_6px_18px_-4px_hsl(220_60%_4%/0.55)]" />
             <button
               onClick={() => setOpen(true)}
-              className={`flex items-center gap-2 group px-2 py-1 ${scrolled ? "shadow-[0_2px_8px_-2px_hsl(220_60%_9%/0.15)]" : "shadow-[0_6px_18px_-4px_hsl(220_60%_4%/0.55)]"}`}
+              className="flex items-center gap-2 group px-2 py-1 shadow-[0_6px_18px_-4px_hsl(220_60%_4%/0.55)]"
               aria-label="Open menu"
             >
-              <span className={`hidden md:inline eyebrow group-hover:text-gold transition-colors ${scrolled ? "text-ink-soft [text-shadow:0_1px_2px_hsl(220_60%_9%/0.18)]" : "text-paper/85 [text-shadow:0_2px_8px_hsl(220_60%_4%/0.55),0_1px_2px_hsl(220_60%_4%/0.7)]"}`}>
+              <span className="hidden md:inline eyebrow text-paper/85 group-hover:text-gold transition-colors [text-shadow:0_2px_8px_hsl(220_60%_4%/0.65),0_1px_2px_hsl(220_60%_4%/0.8)]">
                 Index
               </span>
-              <Menu className={`w-5 h-5 group-hover:text-gold transition-colors ${scrolled ? "text-ink drop-shadow-[0_1px_2px_hsl(220_60%_9%/0.2)]" : "text-paper drop-shadow-[0_2px_6px_hsl(220_60%_4%/0.55)]"}`} />
+              <Menu className="w-5 h-5 text-paper group-hover:text-gold transition-colors drop-shadow-[0_2px_6px_hsl(220_60%_4%/0.65)]" />
             </button>
           </div>
         </div>
