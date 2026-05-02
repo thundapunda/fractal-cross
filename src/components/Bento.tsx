@@ -100,6 +100,8 @@ export function BentoCard({ item }: { item: BentoItem }) {
         )}
         {/* iridescent sheen on hover */}
         <span aria-hidden className="holo absolute inset-0" />
+        {/* hover crisscross + dark overlay */}
+        <span aria-hidden className="tile-hover-fx" />
 
         {/* Content */}
         <div
