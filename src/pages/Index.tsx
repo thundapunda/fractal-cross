@@ -10,6 +10,7 @@ import { PullQuote } from "@/components/Editorial";
 import { Bento, type BentoItem } from "@/components/Bento";
 import { HeroSlideshow, type Slide } from "@/components/HeroSlideshow";
 import { GRAND_GROUPS, findCluster } from "@/data/clusters";
+import { useReveal } from "@/hooks/useReveal";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import textureCosmos from "@/assets/texture-cosmos.jpg";
 import texturePaper from "@/assets/texture-paper.jpg";
