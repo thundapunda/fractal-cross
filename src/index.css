@@ -523,6 +523,47 @@
   }
   .fancy-tile:hover::after { opacity: 0.9; transform: scale(1); }
 
+  /* ============ Tile-soft: gentle crumple base + grainy crisscross hover overlay ============ */
+  .tile-soft > .tile-tex,
+  .tile-soft > .tile-tex-hover { display: none; }
+  .tile-soft {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='cr'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014 0.05' numOctaves='3' seed='13'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23cr)'/%3E%3C/svg%3E");
+    background-size: cover;
+    background-blend-mode: multiply;
+  }
+  .dark .tile-soft {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='cr'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014 0.05' numOctaves='3' seed='13'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 0.92  0 0 0 0 0.78  0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23cr)'/%3E%3C/svg%3E");
+    background-blend-mode: screen;
+  }
+  /* Hover: dark translucent overlay + grainy crisscross — uses a fresh layer so it doesn't fight the shimmer/corner ::before/::after */
+  .tile-soft > .tile-hover-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.55s var(--ease-editorial);
+    background:
+      repeating-linear-gradient(45deg, hsl(var(--ink) / 0.18) 0 1px, transparent 1px 6px),
+      repeating-linear-gradient(-45deg, hsl(var(--ink) / 0.14) 0 1px, transparent 1px 6px),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gn)'/%3E%3C/svg%3E"),
+      linear-gradient(180deg, hsl(220 60% 6% / 0.18), hsl(220 60% 6% / 0.32));
+    background-size: auto, auto, 220px 220px, 100% 100%;
+    mix-blend-mode: multiply;
+    z-index: 3;
+  }
+  .dark .tile-soft > .tile-hover-fx {
+    background:
+      repeating-linear-gradient(45deg, hsl(var(--paper) / 0.08) 0 1px, transparent 1px 6px),
+      repeating-linear-gradient(-45deg, hsl(var(--paper) / 0.06) 0 1px, transparent 1px 6px),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 0.95  0 0 0 0 0.8  0 0 0 0.45 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gn)'/%3E%3C/svg%3E"),
+      linear-gradient(180deg, hsl(220 80% 2% / 0.45), hsl(220 80% 2% / 0.62));
+    background-size: auto, auto, 220px 220px, 100% 100%;
+    mix-blend-mode: multiply;
+  }
+  .tile-soft:hover > .tile-hover-fx { opacity: 1; }
+
   .visible-popup-panel {
     display: block !important;
     opacity: 1 !important;
