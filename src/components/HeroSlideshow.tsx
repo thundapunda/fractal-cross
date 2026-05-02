@@ -46,16 +46,15 @@ export function HeroSlideshow({ slides, intervalMs = 6000 }: Props) {
   }, [i, total]);
 
   const s = slides[i];
-  const isLight = s.tone === "light"; // text is light => use paper colors
-  const textMain = isLight ? "text-paper" : "text-navy-deep";
-  const textSoft = isLight ? "text-paper/80" : "text-navy-deep/75";
-  const textFaint = isLight ? "text-paper/60" : "text-navy-deep/60";
-  const accent = isLight ? "text-gold" : "text-gold";
-  const overlayGrad = isLight
-    ? "bg-gradient-to-r from-navy-deep/80 via-navy-deep/35 to-navy-deep/10"
-    : "bg-gradient-to-r from-paper/85 via-paper/40 to-paper/10";
-  const chromeBorder = isLight ? "border-paper/30" : "border-navy-deep/25";
-  const chromeHover = isLight ? "hover:border-gold hover:text-gold" : "hover:border-gold hover:text-gold";
+  // Always-dark overlay system → always light text.
+  const textMain = "text-paper";
+  const textSoft = "text-paper/80";
+  const textFaint = "text-paper/60";
+  const accent = "text-gold";
+  const overlayGrad = "bg-gradient-to-r from-navy-deep/85 via-navy-deep/45 to-navy-deep/15";
+  const chromeBorder = "border-paper/30";
+  const chromeHover = "hover:border-gold hover:text-gold";
+
 
   return (
     <section
@@ -119,10 +118,9 @@ export function HeroSlideshow({ slides, intervalMs = 6000 }: Props) {
                   className={`h-[2px] transition-all ${
                     idx === i
                       ? "w-10 bg-gold"
-                      : isLight
-                      ? "w-5 bg-paper/40 hover:bg-paper/70"
-                      : "w-5 bg-navy-deep/30 hover:bg-navy-deep/60"
+                      : "w-5 bg-paper/40 hover:bg-paper/70"
                   }`}
+
                 />
               ))}
             </div>
