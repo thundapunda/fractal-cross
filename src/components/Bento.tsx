@@ -42,7 +42,7 @@ const SIZE_CLASS: Record<BentoSize, string> = {
 
 const ACCENT_BG: Record<NonNullable<BentoItem["accent"]>, string> = {
   gold: "bg-gold/10",
-  navy: "bg-navy-deep text-paper",
+  navy: "bg-navy-deep text-paper-contrast",
   paper: "bg-paper",
 };
 
@@ -100,7 +100,7 @@ export function BentoCard({ item }: { item: BentoItem }) {
         {/* Content */}
         <div
           className={`relative h-full w-full p-5 md:p-6 flex flex-col justify-between ${
-            hasImage ? "text-paper" : ""
+            hasImage ? "text-paper-contrast" : ""
           }`}
         >
           <div className="flex items-start justify-between gap-3">
@@ -115,7 +115,7 @@ export function BentoCard({ item }: { item: BentoItem }) {
             )}
             <ArrowUpRight
               className={`w-4 h-4 shrink-0 transition-all duration-500 group-hover:text-gold group-hover:translate-x-1 group-hover:-translate-y-1 ${
-                hasImage ? "text-paper/70" : "text-ink-soft"
+                hasImage ? "text-paper-contrast/70" : "text-ink-soft"
               }`}
             />
           </div>
@@ -124,7 +124,7 @@ export function BentoCard({ item }: { item: BentoItem }) {
             <h3
               className={`font-display leading-tight transition-colors duration-300 ${
                 size === "xl" || size === "lg" ? "text-3xl md:text-4xl" : "text-xl md:text-2xl"
-              } ${hasImage ? "text-paper" : "text-ink group-hover:text-gold"}`}
+              } ${hasImage ? "text-paper-contrast" : "text-ink group-hover:text-gold"}`}
             >
               {item.title}
             </h3>
@@ -135,7 +135,7 @@ export function BentoCard({ item }: { item: BentoItem }) {
                 className={`mt-2 text-sm leading-relaxed max-h-0 opacity-0 overflow-hidden
                   group-hover:max-h-32 group-hover:opacity-100 group-hover:mt-3
                   transition-all duration-500 ease-out ${
-                    hasImage ? "text-paper/85" : "text-ink-soft"
+                    hasImage ? "text-paper-contrast/85" : "text-ink-soft"
                   }`}
               >
                 {item.blurb}
@@ -145,7 +145,7 @@ export function BentoCard({ item }: { item: BentoItem }) {
             {item.meta && (
               <p
                 className={`mt-3 font-mono text-[0.6rem] uppercase tracking-widest ${
-                  hasImage ? "text-paper/60" : "text-muted-foreground"
+                  hasImage ? "text-paper-contrast/60" : "text-muted-foreground"
                 }`}
               >
                 {item.meta}

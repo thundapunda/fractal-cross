@@ -229,11 +229,11 @@ const Index = () => {
                 key={label}
                 data-reveal
                 data-reveal-delay={String(idx * 40)}
-                className="bg-paper p-5 group hover:bg-navy-deep hover:text-paper transition-colors duration-500 relative overflow-hidden"
+                className="bg-paper p-5 group hover:bg-navy-deep hover:text-paper-contrast transition-colors duration-500 relative overflow-hidden"
               >
                 <I className="w-5 h-5 text-gold mb-4 transition-transform duration-500 group-hover:rotate-[8deg] group-hover:scale-110" />
                 <p className="font-display text-xl leading-tight">{label}</p>
-                <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft group-hover:text-paper/60 mt-2">
+                <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft group-hover:text-paper-contrast-soft mt-2">
                   {level}
                 </p>
                 <span className="absolute right-3 top-3 font-mono text-[0.55rem] tracking-[0.25em] text-ink-soft/40 group-hover:text-gold transition-colors">
@@ -411,14 +411,14 @@ const Index = () => {
                           <li key={cs} className="bg-paper">
                             <Link
                               to={`/${c.slug}`}
-                              className="group/tile block p-6 h-full hover:bg-navy-deep hover:text-paper transition-colors duration-500 relative overflow-hidden"
+                              className="group/tile block p-6 h-full hover:bg-navy-deep hover:text-paper-contrast transition-colors duration-500 relative overflow-hidden"
                             >
                               <div className="flex items-start justify-between mb-8">
                                 <span className="font-mono text-xs tracking-widest text-gold">{c.num}</span>
                                 <ArrowUpRight className="w-4 h-4 text-ink-soft group-hover/tile:text-gold group-hover/tile:translate-x-1 group-hover/tile:-translate-y-1 transition-all duration-500" />
                               </div>
                               <h4 className="font-display text-2xl md:text-[1.7rem] leading-[1.05] mb-2">{c.label}</h4>
-                              <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft group-hover/tile:text-paper/60">
+                              <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft group-hover/tile:text-paper-contrast-soft">
                                 {c.tagline}
                               </p>
                               <span className="absolute left-0 bottom-0 h-px w-0 bg-gold transition-all duration-700 group-hover/tile:w-full" />

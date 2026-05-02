@@ -22,7 +22,7 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        paper: { DEFAULT: "hsl(var(--paper))", deep: "hsl(var(--paper-deep))" },
+        paper: { DEFAULT: "hsl(var(--paper))", deep: "hsl(var(--paper-deep))", contrast: "hsl(var(--paper-contrast))", "contrast-soft": "hsl(var(--paper-contrast-soft))" },
         ink: { DEFAULT: "hsl(var(--ink))", soft: "hsl(var(--ink-soft))" },
         navy: { DEFAULT: "hsl(var(--navy))", deep: "hsl(var(--navy-deep))", muted: "hsl(var(--navy-muted))" },
         gold: { DEFAULT: "hsl(var(--gold))", bright: "hsl(var(--gold-bright))", soft: "hsl(var(--gold-soft))" },

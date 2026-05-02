@@ -18,6 +18,8 @@
 
     --paper: 38 40% 96%;
     --paper-deep: 36 28% 90%;
+    --paper-contrast: 38 40% 96%;
+    --paper-contrast-soft: 38 25% 78%;
     --ink: 220 60% 9%;
     --ink-soft: 220 30% 22%;
 
@@ -78,6 +80,8 @@
 
     --paper: 222 55% 9%;
     --paper-deep: 222 55% 7%;
+    --paper-contrast: 38 40% 96%;
+    --paper-contrast-soft: 38 25% 78%;
     --ink: 38 35% 95%;
     --ink-soft: 38 25% 78%;
 
@@ -88,7 +92,7 @@
     --popover-foreground: 38 35% 95%;
 
     --primary: 41 55% 60%;
-    --primary-foreground: 222 65% 6%;
+    --primary-foreground: 38 35% 95%;
 
     --secondary: 222 40% 16%;
     --secondary-foreground: 38 35% 95%;
@@ -97,7 +101,7 @@
     --muted-foreground: 38 15% 65%;
 
     --accent: 41 55% 60%;
-    --accent-foreground: 222 65% 6%;
+    --accent-foreground: 38 35% 95%;
 
     --border: 222 30% 22%;
     --input: 222 30% 22%;
@@ -150,6 +154,8 @@
   .force-light {
     --paper: 38 40% 96%;
     --paper-deep: 36 28% 90%;
+    --paper-contrast: 38 40% 96%;
+    --paper-contrast-soft: 38 25% 78%;
     --ink: 220 60% 9%;
     --ink-soft: 220 30% 22%;
     --background: 38 35% 95%;
@@ -256,6 +262,8 @@
   .text-gold { color: hsl(var(--gold)); }
   .text-ink { color: hsl(var(--ink)); }
   .text-ink-soft { color: hsl(var(--ink-soft)); }
+  .text-paper-contrast { color: hsl(var(--paper-contrast)); }
+  .text-paper-contrast-soft { color: hsl(var(--paper-contrast-soft)); }
 
   .border-gold { border-color: hsl(var(--gold)); }
   .border-ink { border-color: hsl(var(--ink)); }

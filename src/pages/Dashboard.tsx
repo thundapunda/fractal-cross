@@ -56,16 +56,16 @@ function GrandGroupBlock({ group }: { group: typeof GRAND_GROUPS[number] }) {
             <li key={cs} className="bg-paper">
               <Link
                 to={`/${c.slug}`}
-                className="group/tile block p-5 h-full hover:bg-navy-deep hover:text-paper transition-colors duration-500"
+                className="group/tile block p-5 h-full hover:bg-navy-deep hover:text-paper-contrast transition-colors duration-500"
               >
                 <div className="flex items-start justify-between mb-8">
                   <I className="w-5 h-5 text-gold" />
-                  <span className="font-mono text-[0.6rem] tracking-widest text-ink-soft group-hover/tile:text-paper/60">
+                  <span className="font-mono text-[0.6rem] tracking-widest text-ink-soft group-hover/tile:text-paper-contrast-soft">
                     {c.num}
                   </span>
                 </div>
                 <h4 className="font-display text-xl leading-tight">{c.label}</h4>
-                <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft group-hover/tile:text-paper/60 mt-2 line-clamp-2">
+                <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft group-hover/tile:text-paper-contrast-soft mt-2 line-clamp-2">
                   {c.tagline}
                 </p>
               </Link>
