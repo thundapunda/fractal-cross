@@ -105,7 +105,7 @@ export function BentoCard({ item }: { item: BentoItem }) {
 
         {/* Content */}
         <div
-          className={`relative h-full w-full p-5 md:p-6 flex flex-col justify-between ${
+          className={`tile-content h-full w-full p-5 md:p-6 flex flex-col justify-between ${
             hasImage ? "text-paper-contrast" : ""
           }`}
         >
