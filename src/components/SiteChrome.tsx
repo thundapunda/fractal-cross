@@ -2,6 +2,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { CLUSTERS, GRAND_GROUPS, PROOF_CLUSTER, findGrandGroup } from "@/data/clusters";
+import { ThemeToggle } from "./ThemeToggle";
 
 const topLinks = [
   { to: "/", label: "Home (Editorial)", num: "00" },
@@ -62,16 +63,19 @@ export const SiteNav = () => {
             </span>
           </Link>
 
-          <button
-            onClick={() => setOpen(true)}
-            className="flex items-center gap-2 group"
-            aria-label="Open menu"
-          >
-            <span className="hidden md:inline eyebrow text-ink-soft group-hover:text-gold transition-colors">
-              Index
-            </span>
-            <Menu className="w-5 h-5 text-ink group-hover:text-gold transition-colors" />
-          </button>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={() => setOpen(true)}
+              className="flex items-center gap-2 group"
+              aria-label="Open menu"
+            >
+              <span className="hidden md:inline eyebrow text-ink-soft group-hover:text-gold transition-colors">
+                Index
+              </span>
+              <Menu className="w-5 h-5 text-ink group-hover:text-gold transition-colors" />
+            </button>
+          </div>
         </div>
       </header>
 
