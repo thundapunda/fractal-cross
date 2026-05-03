@@ -382,3 +382,197 @@ function ContactBlock() {
     </div>
   );
 }
+
+/* -------------------- Works mood board: an assortment of mismatched scraps -------------------- */
+
+type Scrap =
+  | { kind: "image"; src: string; label: string; tilt?: number; shape?: "square" | "tall" | "wide" | "circle" | "polaroid" | "diamond" | "arch"; size?: "sm" | "md" | "lg" | "xl" }
+  | { kind: "quote"; text: string; tilt?: number; tone?: "ink" | "gold" | "navy" }
+  | { kind: "tag"; text: string; tilt?: number; tone?: "ink" | "gold" | "navy" | "paper" }
+  | { kind: "swatch"; color: string; label: string; tilt?: number; size?: "sm" | "md" | "lg" }
+  | { kind: "stamp"; text: string; sub?: string; tilt?: number }
+  | { kind: "ticket"; head: string; body: string; tilt?: number }
+  | { kind: "asterism"; tilt?: number };
+
+const MOOD_SCRAPS: Scrap[] = [
+  { kind: "image", src: atmosTelescope, label: "Observation", shape: "tall", size: "lg", tilt: -2 },
+  { kind: "tag", text: "Worldbuilding", tone: "gold", tilt: -4 },
+  { kind: "image", src: atmosNotebook, label: "Notation", shape: "polaroid", size: "md", tilt: 3 },
+  { kind: "quote", text: "Curiosity is not my hobby.", tone: "ink", tilt: -1 },
+  { kind: "swatch", color: "hsl(var(--gold))", label: "Gold · 04", size: "md", tilt: 5 },
+  { kind: "image", src: atmosMusic, label: "Resonance", shape: "circle", size: "md", tilt: 0 },
+  { kind: "stamp", text: "Edition I", sub: "Volume One", tilt: -6 },
+  { kind: "tag", text: "Robotics 7700", tone: "navy", tilt: 2 },
+  { kind: "image", src: textureCosmos, label: "Cosmos plate", shape: "wide", size: "lg", tilt: 1 },
+  { kind: "ticket", head: "FRC", body: "Build · Drive · Debug", tilt: -3 },
+  { kind: "image", src: heroPortrait, label: "Self-portrait", shape: "polaroid", size: "sm", tilt: -5 },
+  { kind: "swatch", color: "hsl(var(--navy-deep))", label: "Navy · 01", size: "sm", tilt: -2 },
+  { kind: "asterism", tilt: 0 },
+  { kind: "tag", text: "Hindustani vocal", tone: "ink", tilt: 4 },
+  { kind: "image", src: texturePaper, label: "Paper field", shape: "diamond", size: "md", tilt: -3 },
+  { kind: "quote", text: "Words before pixels.", tone: "gold", tilt: 2 },
+  { kind: "image", src: atmosNotebook, label: "Drafting", shape: "arch", size: "md", tilt: -1 },
+  { kind: "tag", text: "Zionaxelle", tone: "paper", tilt: -2 },
+  { kind: "stamp", text: "Examined", sub: "in public", tilt: 4 },
+  { kind: "image", src: atmosTelescope, label: "Optics", shape: "square", size: "sm", tilt: 3 },
+  { kind: "swatch", color: "hsl(var(--paper-deep))", label: "Paper · 00", size: "sm", tilt: 6 },
+  { kind: "tag", text: "Embroidery", tone: "gold", tilt: -3 },
+  { kind: "image", src: atmosMusic, label: "Stage", shape: "tall", size: "md", tilt: 2 },
+  { kind: "ticket", head: "YMCA", body: "Youth co-op · VP", tilt: -4 },
+  { kind: "quote", text: "Every claim, open for inspection.", tone: "ink", tilt: -2 },
+  { kind: "tag", text: "Karate · Abacus · Chess", tone: "navy", tilt: 3 },
+];
+
+const sizePx = { sm: 110, md: 170, lg: 230, xl: 300 } as const;
+
+function shapeClasses(shape: NonNullable<Extract<Scrap, { kind: "image" }>["shape"]>) {
+  switch (shape) {
+    case "square":   return "aspect-square";
+    case "tall":     return "aspect-[3/4]";
+    case "wide":     return "aspect-[16/9]";
+    case "circle":   return "aspect-square rounded-full";
+    case "polaroid": return "aspect-[4/5] p-2 pb-8 bg-paper border border-border shadow-[0_8px_22px_-10px_hsl(220_60%_4%/0.4)]";
+    case "diamond":  return "aspect-square rotate-45";
+    case "arch":     return "aspect-[3/4] rounded-t-full";
+  }
+}
+
+function ScrapCard({ scrap, idx }: { scrap: Scrap; idx: number }) {
+  const tilt = scrap.tilt ?? 0;
+  const baseTransform = `rotate(${tilt}deg)`;
+  const hoverStyle: React.CSSProperties = { transform: baseTransform };
+
+  const wrap = (children: ReactNode, extra = "") => (
+    <div
+      className={`shrink-0 transition-transform duration-500 hover:!rotate-0 hover:scale-[1.04] hover:z-10 will-change-transform ${extra}`}
+      style={hoverStyle}
+      data-reveal
+      data-reveal-delay={String((idx % 12) * 40)}
+    >
+      {children}
+    </div>
+  );
+
+  if (scrap.kind === "image") {
+    const w = sizePx[scrap.size ?? "md"];
+    const isPolaroid = scrap.shape === "polaroid";
+    const isDiamond = scrap.shape === "diamond";
+    const inner = (
+      <figure
+        className={`relative overflow-hidden ${shapeClasses(scrap.shape ?? "square")} ${isPolaroid ? "" : "border border-border bg-paper-deep"}`}
+        style={{ width: w }}
+      >
+        <img
+          src={scrap.src}
+          alt={scrap.label}
+          loading="lazy"
+          className={`absolute inset-0 w-full h-full object-cover ${isDiamond ? "-rotate-45 scale-[1.42]" : ""} ${isPolaroid ? "!relative !inset-auto !h-auto aspect-[4/5]" : ""}`}
+        />
+        {!isPolaroid && (
+          <span className="absolute inset-0 ring-1 ring-inset ring-paper/10 mix-blend-overlay pointer-events-none" />
+        )}
+        {isPolaroid && (
+          <figcaption className="absolute left-0 right-0 bottom-1.5 text-center font-mono text-[0.55rem] uppercase tracking-[0.25em] text-ink-soft">
+            {scrap.label}
+          </figcaption>
+        )}
+      </figure>
+    );
+    return wrap(inner);
+  }
+
+  if (scrap.kind === "quote") {
+    const toneCls =
+      scrap.tone === "gold" ? "text-gold border-gold/40"
+      : scrap.tone === "navy" ? "text-paper bg-navy-deep border-navy-deep"
+      : "text-ink border-border bg-paper";
+    return wrap(
+      <blockquote className={`max-w-[260px] border ${toneCls} p-4 font-display italic text-base md:text-lg leading-snug shadow-[0_8px_22px_-12px_hsl(220_60%_4%/0.35)]`}>
+        “{scrap.text}”
+      </blockquote>
+    );
+  }
+
+  if (scrap.kind === "tag") {
+    const toneCls =
+      scrap.tone === "gold" ? "bg-gold text-navy-deep"
+      : scrap.tone === "navy" ? "bg-navy-deep text-paper"
+      : scrap.tone === "paper" ? "bg-paper-deep text-ink border border-border"
+      : "bg-paper text-ink border border-border";
+    return wrap(
+      <span className={`inline-block px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.3em] ${toneCls} shadow-[0_4px_12px_-6px_hsl(220_60%_4%/0.4)]`}>
+        {scrap.text}
+      </span>
+    );
+  }
+
+  if (scrap.kind === "swatch") {
+    const w = sizePx[scrap.size ?? "md"];
+    return wrap(
+      <div className="bg-paper border border-border p-2 shadow-[0_6px_16px_-8px_hsl(220_60%_4%/0.4)]" style={{ width: w }}>
+        <div className="aspect-square" style={{ background: scrap.color }} />
+        <p className="font-mono text-[0.55rem] uppercase tracking-[0.25em] text-ink-soft mt-1.5 text-center">
+          {scrap.label}
+        </p>
+      </div>
+    );
+  }
+
+  if (scrap.kind === "stamp") {
+    return wrap(
+      <div className="border-2 border-dashed border-gold/70 px-3 py-2 text-center bg-paper">
+        <p className="font-display text-lg text-gold leading-none">{scrap.text}</p>
+        {scrap.sub && (
+          <p className="font-mono text-[0.55rem] uppercase tracking-[0.3em] text-gold/80 mt-1">{scrap.sub}</p>
+        )}
+      </div>
+    );
+  }
+
+  if (scrap.kind === "ticket") {
+    return wrap(
+      <div className="flex items-stretch shadow-[0_8px_22px_-12px_hsl(220_60%_4%/0.4)]">
+        <div className="bg-navy-deep text-paper px-3 py-2 font-mono text-[0.65rem] uppercase tracking-[0.3em] flex items-center">
+          {scrap.head}
+        </div>
+        <div className="bg-paper border border-l-0 border-border px-4 py-2 font-display text-sm text-ink">
+          {scrap.body}
+        </div>
+      </div>
+    );
+  }
+
+  // asterism
+  return wrap(
+    <div className="font-display text-3xl text-gold tracking-[0.35em] select-none">✦ ✶ ✦</div>
+  );
+}
+
+function WorksMoodBoard() {
+  return (
+    <section
+      id="mood-board"
+      className="relative scroll-mt-32 px-4 md:px-12 pt-2 pb-12 border-t border-border crumpled-paper film-grain stipple"
+    >
+      <header className="flex items-center gap-3 mb-6">
+        <Sparkles className="w-4 h-4 text-gold shrink-0" />
+        <span className="label-gold">Mood board</span>
+        <span className="flex-1 h-px bg-border" />
+        <h2 className="font-display text-xl md:text-2xl text-ink text-right">A drawer of miscellany</h2>
+      </header>
+      <p className="max-w-2xl text-ink-soft text-sm md:text-base font-accent italic mb-6 leading-relaxed">
+        Scraps, swatches, polaroids, half-tickets — the off-cuts that don't fit a single rail
+        but together explain the room. Hover any piece to straighten it.
+      </p>
+      <div className="relative -mx-4 md:-mx-12 px-4 md:px-12 overflow-x-auto pb-4">
+        <ul className="flex items-center gap-5 md:gap-7 min-w-max">
+          {MOOD_SCRAPS.map((scrap, i) => (
+            <li key={i} className="flex items-center">
+              <ScrapCard scrap={scrap} idx={i} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
