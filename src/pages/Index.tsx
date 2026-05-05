@@ -21,99 +21,99 @@ import atmosMusic from "@/assets/atmos-music.jpg";
 const HERO_SLIDES: Slide[] = [
   {
     src: heroPortrait, alt: "Geetika Gehlot — portrait",
-    tone: "light", eyebrow: "Geetika Gehlot · 17 · Montréal",
-    title: "Polymath in motion.",
-    body: "Self-taught high-energy physicist since age 10 · Bollywood child artist · Hindustani classical vocalist · electric guitarist · 400+ chapter sci-fi novelist · FRC 7700 · YMCA Youth Co-op VP.",
+    tone: "light", eyebrow: "Geetika Gehlot · I",
+    title: "Building worlds.",
+    body: "Scientist · Researcher · Creator · Musician · Storyteller · Innovator. A 15-year-old multidisciplinary mind from Montréal.",
   },
   {
     src: atmosTelescope, alt: "Telescope under stars",
-    tone: "light", eyebrow: "Plate II · Physics",
-    title: "SUSY, relativity, the cosmos.",
-    body: "Two years of university-level physics, chemistry, math, and biology — covered independently before grade 11. Mentored by Prof. Mariana Frank in particle physics.",
+    tone: "light", eyebrow: "Plate II · Observation",
+    title: "Through the lens.",
+    body: "Robotics, physics, and the slow art of paying attention.",
   },
   {
     src: atmosNotebook, alt: "Open notebook with handwritten pages",
-    tone: "dark", eyebrow: "Plate III · The Novel",
-    title: "400+ chapters and counting.",
-    body: "A multiverse-spanning sci-fi/fantasy series — drafted, scene by scene, between AP prep and Olympiad rounds.",
+    tone: "dark", eyebrow: "Plate III · Notation",
+    title: "On the page.",
+    body: "A novel cycle in motion. Words before pixels, always.",
   },
   {
     src: atmosMusic, alt: "Stage lights and microphone",
-    tone: "light", eyebrow: "Plate IV · Voice & Strings",
-    title: "Classical voice. Polyphia in 6 months.",
-    body: "Hindustani vocal competitions won. Electric guitar from zero to 'Goat' by Polyphia — polyrhythmic riffs included — in half a year.",
+    tone: "light", eyebrow: "Plate IV · Resonance",
+    title: "In full voice.",
+    body: "Hindustani vocal, voice acting, and the discipline of stage.",
   },
   {
     src: texturePaper, alt: "Aged paper texture",
-    tone: "dark", eyebrow: "Plate V · The Receipts",
-    title: "Most-awarded student in her school.",
-    body: "Hundreds of awards. SOF, IOQM, JSO, RMO, TCS IntelliGem top-4 nationally. EMSB ministry: 100 in math, 100 in history, 97 in science.",
+    tone: "dark", eyebrow: "Plate V · Dossier",
+    title: "Examined in public.",
+    body: "Every claim, every clipping, every receipt — open for inspection.",
   },
 ];
 
 
 /* -------------------- SKILLS TOOLKIT -------------------- */
 const SKILLS: { icon: React.ComponentType<{ className?: string }>; label: string; level: string }[] = [
-  { icon: Atom,      label: "Physics",          level: "Self-taught since age 10 · SUSY, QM, relativity" },
-  { icon: Brain,     label: "Mathematics",      level: "IOQM · RMO · AP Calc BC prep" },
-  { icon: Cpu,       label: "Robotics",         level: "FRC Team 7700 · 2025–26" },
-  { icon: Code2,     label: "Code + Cybersec",  level: "Music/image/video stacks · offensive sec goals" },
-  { icon: PenTool,   label: "Writing",          level: "400+ chapter sci-fi/fantasy novel" },
-  { icon: Music2,    label: "Hindustani Vocal", level: "Competition winner · classical training" },
-  { icon: Mic2,      label: "Acting + Dubbing", level: "Bollywood child artist · YouTube reel" },
-  { icon: Camera,    label: "Multimedia",       level: "Music production · video & image editing" },
-  { icon: Palette,   label: "Visual Art",       level: "Canvas painting · embroidery" },
-  { icon: Trophy,    label: "Strategy + Sport", level: "State-level chess · badminton · TT · karate" },
-  { icon: Languages, label: "Languages",        level: "EN · HI · FR" },
-  { icon: Wand2,     label: "Rap Architecture", level: "Verse-by-verse phonetic engineering" },
+  { icon: Atom,      label: "Physics",         level: "Self-taught + olympiad" },
+  { icon: Brain,     label: "Mathematics",     level: "AP track" },
+  { icon: Cpu,       label: "Robotics",        level: "FRC Team 7700" },
+  { icon: Code2,     label: "Web + Code",      level: "React · TS · Python" },
+  { icon: PenTool,   label: "Writing",         level: "Novel cycle · podcast" },
+  { icon: Music2,    label: "Hindustani Vocal", level: "Stage performer" },
+  { icon: Mic2,      label: "Voice Acting",    level: "Child-artist credits" },
+  { icon: Camera,    label: "Multimedia",      level: "Edit · shoot · score" },
+  { icon: Palette,   label: "Visual Art",      level: "Canvas · embroidery" },
+  { icon: Trophy,    label: "Strategy Games",  level: "Chess · badminton · TT" },
+  { icon: Languages, label: "Languages",       level: "EN · HI · FR" },
+  { icon: Wand2,     label: "Storyworlds",     level: "Worldbuilding craft" },
 ];
 
 /* -------------------- FEATURED HIGHLIGHTS BENTO -------------------- */
 const FEATURED: BentoItem[] = [
   {
     id: "f-frc", size: "xl", eyebrow: "Robotics",
-    title: "FRC Team 7700 · 2025–26",
-    blurb: "Engineering and teamwork inside Montréal's competition robotics circuit.",
-    image: atmosTelescope, meta: "Works · FRC Team 7700",
-    detail: "Sharing CAD, build, and driver-station work with an ambitious 7700 crew during the 2025–26 season.",
+    title: "FRC Team 7700",
+    blurb: "Build seasons, mechanical instinct, and the controlled chaos of competition robotics.",
+    image: atmosTelescope, meta: "Cluster 04 · Robotics",
+    detail: "From CAD reviews at midnight to driver-station nerves on game day — Team 7700 is where I learned to design under deadline, debug under pressure, and trust a team. Click through to the cluster for the full build log.",
   },
   {
     id: "f-novel", size: "lg", eyebrow: "Writing",
-    title: "400+ chapter sci-fi cycle",
-    blurb: "A multiverse-and-fantasy novel sequel — drafted alongside everything else.",
-    image: atmosNotebook, meta: "Works · Novel Series Archive",
+    title: "The Novel Cycle",
+    blurb: "A multi-book story world I've been building for years.",
+    image: atmosNotebook, meta: "Cluster 05 · Writing",
   },
   {
     id: "f-vocal", size: "md", eyebrow: "Performance",
-    title: "Hindustani classical vocal",
-    blurb: "Competition wins, training in raagas, performance reels.",
-    image: atmosMusic, meta: "Works · Vocal Performance",
+    title: "Hindustani Vocal",
+    blurb: "Stage repertoire, raagas, and live performance reels.",
+    image: atmosMusic, meta: "Cluster 06 · Music",
   },
   {
     id: "f-ap", size: "md", eyebrow: "Academics",
-    title: "5 AP exams in grade 10",
-    blurb: "Chem · Bio · Env Sci · Phys C Mech · Phys C E&M — all passed.", meta: "Academics · Highlights",
+    title: "AP Track + Olympiads",
+    blurb: "The transcript backing the curiosity.", meta: "Cluster 02 · Academics",
   },
   {
     id: "f-acting", size: "md", eyebrow: "Screen",
-    title: "Bollywood child-artist reel",
-    blurb: "Acting and dubbing credits — full YouTube playlist.", meta: "Works · Child Artist Archive",
+    title: "Child Artist Reel",
+    blurb: "Years on screen, in front of a camera and a microphone.", meta: "Cluster 07 · Acting",
   },
   {
-    id: "f-ymca", size: "md", eyebrow: "Leadership",
-    title: "YMCA Youth Co-op · VP",
-    blurb: "NDG–Westmount 2025: built a 15-teen co-op from scratch.", meta: "Works · YMCA Youth Co-op",
+    id: "f-zion", size: "md", eyebrow: "Tech",
+    title: "Zionaxelle",
+    blurb: "A multimedia universe I built from scratch.", meta: "Cluster 08 · Tech",
   },
 ];
 
 /* -------------------- RANDOM WINS / CURIOSITIES TEASER -------------------- */
 const CURIOSITIES: BentoItem[] = [
-  { id: "c-karate", size: "md", eyebrow: "Mat", title: "Martial-arts trophies & medals", blurb: "Years of karate — multiple trophies and medals across competitions.", meta: "Works · Karate" },
-  { id: "c-abacus", size: "md", eyebrow: "Mental Math", title: "Whiz Kids Abacus · National Rank 3", blurb: "National-level abacus champion — lightning arithmetic from elementary years.", meta: "Works · Abacus" },
-  { id: "c-chess", size: "sm", eyebrow: "Strategy", title: "State-level chess (India)", blurb: "Tournament qualifier at the state level.", meta: "Works · Chess" },
-  { id: "c-tcs", size: "sm", eyebrow: "Olympiad", title: "TCS IntelliGem · top-4 nationally", blurb: "Qualified top-4 in all of India in grade 5 — same year as head girl.", meta: "Academics · Awards" },
-  { id: "c-princess", size: "sm", eyebrow: "Title", title: "School Princess · grades 3 & 5", blurb: "Crowned twice during elementary years.", meta: "About · Identity Timeline" },
-  { id: "c-misc", size: "wide", eyebrow: "Side quests", title: "And dozens more — most-awarded student in her school", blurb: "Hundreds of certificates, medals, and titles. The full ledger lives in the vault.", meta: "Vault · Recognition" },
+  { id: "c-karate", size: "md", eyebrow: "Belt", title: "Karate", blurb: "Years on the mat — discipline that bleeds into everything else.", meta: "TODO · belt level + dojo" },
+  { id: "c-abacus", size: "md", eyebrow: "Mental Math", title: "Abacus medals", blurb: "Lightning arithmetic from the elementary years.", meta: "TODO · grades + competitions" },
+  { id: "c-chess", size: "sm", eyebrow: "Strategy", title: "Chess", blurb: "Tournament play and pattern obsession.", meta: "TODO · rating" },
+  { id: "c-bad", size: "sm", eyebrow: "Court", title: "Badminton", blurb: "Smash, drop, repeat.", meta: "TODO" },
+  { id: "c-tt", size: "sm", eyebrow: "Court", title: "Table Tennis", blurb: "Reflex over reach.", meta: "TODO" },
+  { id: "c-misc", size: "wide", eyebrow: "Side quests", title: "And a few oddities I'm proud of", blurb: "Random certificates, half-wins, things that don't fit a category but absolutely shaped me.", meta: "Cluster 15 · Curiosities — full archive" },
 ];
 
 const Index = () => {
@@ -160,9 +160,9 @@ const Index = () => {
                 className="font-display text-3xl md:text-5xl text-ink leading-[1.05] text-balance drop-cap"
                 data-reveal
               >
-                Born February 2009 in India. Moved to Montréal on October 10, 2024. Now in
-                Secondary 5 in Westmount, Quebec — one year from graduation, already deep
-                into university physics, Olympiad math, and a 400-chapter sci-fi novel.
+                This is not a résumé. It is a working dossier — equal parts laboratory
+                notebook, gallery catalogue, and founder's manifesto. Every page has
+                layers, sublayers, evidence. Every claim is meant to be examined.
               </p>
               <div className="rule-double my-8 max-w-xs" data-reveal data-reveal-delay="120" />
               <p
@@ -170,11 +170,10 @@ const Index = () => {
                 data-reveal
                 data-reveal-delay="200"
               >
-                I have been self-teaching high-energy physics since I was ten. I act in
-                Bollywood productions, sing Hindustani classical, play electric guitar
-                (zero to Polyphia in six months), paint on canvas, lead a YMCA youth
-                co-op, and aim straight at elite U.S. universities — and, eventually, a
-                multibillion-dollar career in science and business.
+                I was born in India, raised between two continents, and I now write,
+                perform, code, and study physics from Montréal. I have spent the
+                last ten years collecting questions — this site is where I begin to
+                answer them, in public, with proof.
               </p>
             </div>
           </div>

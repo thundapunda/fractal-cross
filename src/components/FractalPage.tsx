@@ -5,7 +5,8 @@ import {
   Mail, Linkedin, Github, Send, MapPin,
 } from "lucide-react";
 import { ClusterShell } from "./ClusterShell";
-import { PullQuote } from "./Editorial";
+import { PullQuote, Marginalia } from "./Editorial";
+import { Bento, type BentoItem } from "./Bento";
 import { CLUSTERS, findCluster, type Cluster, type Subpage } from "@/data/clusters";
 import heroFallback from "@/assets/atmos-notebook.jpg";
 import heroPortrait from "@/assets/hero-portrait.jpg";
@@ -90,330 +91,33 @@ function RelatedRail({ clusterSlug }: { clusterSlug: string }) {
   );
 }
 
-/* -------------------- Real facts per topic -------------------- */
+/* -------------------- Inner renderers (bento everywhere it makes sense) -------------------- */
 
-type TopicFact = {
-  lede?: string;
-  bullets?: string[];
-  youtube?: { kind: "video" | "playlist"; id: string; title: string };
-};
-
-const TOPIC_FACTS: Record<string, TopicFact> = {
-  "personal-profile": {
-    lede: "17 years old · born February 2009 · Indian-Canadian · based in Westmount, Montréal.",
-    bullets: [
-      "Moved from India to Montréal on October 10, 2024 with her family after her father's job promotion.",
-      "Currently in Secondary 5 (Quebec system) — one year from graduation.",
-      "Trilingual: English, Hindi, French.",
-      "Down-to-earth, highly competitive, kind, and known for mentoring peers and managing difficult personalities.",
-    ],
-  },
-  "identity-timeline": {
-    lede: "From Rajasthani roots to Quebec school benches — a fast, recent transcontinental move.",
-    bullets: [
-      "Born February 2009 in India.",
-      "Crowned 'School Princess' in grades 3 and 5; head girl of her entire school in grade 5.",
-      "TCS IntelliGem (India) top-4 nationally in grade 5.",
-      "Moved to Montréal, QC on October 10, 2024.",
-    ],
-  },
-  "languages-culture": {
-    lede: "Rajasthani heritage, raised across continents, fluent across three languages.",
-    bullets: [
-      "Languages: English, Hindi, French.",
-      "Strong Rajasthani cultural roots — values leadership, communication, and cultural integration.",
-      "Balances fitting in and standing out as uniquely herself.",
-    ],
-  },
-  "education-goals": {
-    lede: "Targeting elite admissions in Massachusetts, New York, and Boston via scholarships.",
-    bullets: [
-      "Aiming for prestigious U.S. high schools and universities, especially in MA, NY, and Boston.",
-      "Plans a Bachelor's in engineering or physics, then a Master's in business / commerce.",
-      "Limited family resources for college — actively pursuing scholarships and merit recognition.",
-    ],
-  },
-  "career-vision": {
-    lede: "Science, engineering, and business — built into a multibillion-dollar career.",
-    bullets: [
-      "Long-term aim: become a powerful, successful multibillionaire across science and business.",
-      "Loves to engineer, invent, and innovate across tech design, science, sales, and marketing.",
-      "Wants to master cybersecurity at an elite, offensive level — APT and RAT research-grade depth.",
-    ],
-  },
-  "what-i-am-building": {
-    lede: "Several long-running projects, all alive at once.",
-    bullets: [
-      "A 400+ chapter sci-fi/fantasy novel sequel about multiverses.",
-      "An advanced rap project where every verse has a distinct rhythmic and phonetic identity.",
-      "Independent physics research toward college-level work in particle physics and astrophysics.",
-      "A path into elite cybersecurity — building from zero toward undetectable APTs and RATs.",
-    ],
-  },
-
-  "education-timeline": {
-    lede: "From Indian schooling and national olympiads to Quebec ministry exams.",
-    bullets: [
-      "Schooled in India through grade 9; head girl in grade 5.",
-      "Now in Secondary 5 in Westmount, Quebec (EMSB).",
-      "Grade 10 EMSB ministry exams: 100 in math, 100 in history, 97 in science.",
-      "Plans to keep her GPA high until graduation.",
-    ],
-  },
-  "subject-strengths": {
-    lede: "Deep in physics, math, and pure sciences — strong across humanities too.",
-    bullets: [
-      "Self-completed first two years of university physics, chemistry, math, and biology.",
-      "Passionate about supersymmetry (SUSY), relativity, quantum mechanics, and astronomy.",
-      "Avid stargazing-app user; loves both theoretical and creative aspects of science.",
-    ],
-  },
-  "awards-vault": {
-    lede: "Hundreds of recognitions — most-awarded student in her school.",
-    bullets: [
-      "SOF Olympiad — multiple distinctions.",
-      "IOQM (Indian Olympiad Qualifier in Mathematics) — high ranks.",
-      "Junior Science Olympiad (JSO) and Regional Mathematics Olympiad (RMO) — high ranks.",
-      "Several cash prizes across olympiads.",
-      "TCS IntelliGem — top-4 nationally in grade 5.",
-      "Whiz Kids Abacus — National Rank 3.",
-    ],
-  },
-  "growth-notes": {
-    lede: "Always pushing limits — every new field treated as a new craft to master.",
-    bullets: [
-      "Strives for excellence in every new skill she tries, in every field.",
-      "Highly competitive but also kind — known for mentoring peers.",
-      "Strong communication skills, especially with difficult people.",
-    ],
-  },
-  "physics-journey": {
-    lede: "Self-teaching high-energy physics since age 10–11.",
-    bullets: [
-      "Independently completed coursework equivalent to the first two years of university physics.",
-      "Focus areas: quantum mechanics, particle physics, supersymmetry, relativity, astrophysics.",
-      "Prepared for both AP Physics C tracks (Mechanics + E&M) and passed in grade 10.",
-    ],
-  },
-  "research-interests": {
-    lede: "Particle physics, astrophysics, quantum mechanics — and the people who do them.",
-    bullets: [
-      "Actively seeking research opportunities and professor collaborations.",
-      "Met and contacted Prof. Mariana Frank (Concordia) for mentorship in particle physics.",
-      "Building a young CV with lab experience to maximize chances at elite institutions.",
-    ],
-  },
-  "independent-archive": {
-    lede: "A homemade university — derivations, problem sets, notes, and reading.",
-    bullets: [
-      "Years of independent notes across physics, chem, math, and biology at university level.",
-      "Olympiad problem sets: IOQM, RMO, JSO, JEE Mains & Advanced, NEET, AP Calc BC, SAT.",
-    ],
-  },
-  "mentorship": {
-    lede: "Guidance from a small circle of trusted mentors in Montréal.",
-    bullets: [
-      "Amandeep Bakshi — guidance and support.",
-      "Arpi Hamalian — guidance and support.",
-      "Ailie Cleghorn — guidance and support.",
-      "Prof. Mariana Frank (Concordia) — particle-physics mentorship.",
-    ],
-  },
-  "future-stem-goals": {
-    lede: "Olympiad rounds, college-level research, and elite admissions.",
-    bullets: [
-      "Preparing for Physics & Math olympiads.",
-      "Pursuing college-level physics research while still in high school.",
-      "Aim: elite undergraduate program in engineering or physics in the U.S.",
-    ],
-  },
-
-  "frc-team-7700": {
-    lede: "FRC Team 7700 · 2025–26 season.",
-    bullets: [
-      "Member of the 2025–2026 FRC robotics team #7700.",
-      "Sharing engineering and teamwork skills with peers across the build season.",
-    ],
-  },
-
-  "novel-series-archive": {
-    lede: "A 400+ chapter sci-fi / fantasy novel sequel.",
-    bullets: [
-      "Drafted 400+ chapters for a fantasy novel sequel.",
-      "Themes: multiverses, fantasy, the architecture of universes.",
-      "Blends storytelling with her curiosity about physics and cosmology.",
-    ],
-  },
-
-  "vocal-performance": {
-    lede: "Hindustani classical vocalist — competition-winning.",
-    bullets: [
-      "Trained in Indian classical singing.",
-      "Won several classical singing competitions.",
-    ],
-    youtube: { kind: "video", id: "ztgyTb76WU0", title: "Geetika — classical singing performance" },
-  },
-  "instrumental": {
-    lede: "Electric guitar (Polyphia in 6 months) and piano.",
-    bullets: [
-      "From never having touched an electric guitar to playing 'Goat' by Polyphia — including its polyrhythmic riffs — in 6 months.",
-      "Also plays piano.",
-    ],
-  },
-  "performance-portfolio": {
-    lede: "Stages, screens, and recordings.",
-    bullets: [
-      "Classical vocal competition wins.",
-      "Bollywood acting and dubbing work (see Child Artist Archive).",
-    ],
-  },
-  "repertoire": {
-    lede: "Hindustani raagas, contemporary covers, and an in-progress rap project.",
-    bullets: [
-      "Working on an advanced rap project: each verse with a distinct rhythmic, phonetic, and structural identity.",
-      "Techniques: rhythmic foot changes, vowel-palette shifts, syllabic-density variation, vocal-character switches, phonetic mutation, and performance tricks (coughs, time-lapse flow, serpent speech, fourth-wall-breaking meta-rap).",
-    ],
-  },
-
-  "child-artist-archive": {
-    lede: "Bollywood acting and dubbing — full YouTube playlist below.",
-    bullets: [
-      "Years of on-screen acting work as a Bollywood child artist.",
-      "Voice / dubbing experience alongside on-camera roles.",
-    ],
-    youtube: { kind: "playlist", id: "PLa3Wj4jzB_6FG8GcJA41Lx2JGtABeQN5f", title: "Geetika — acting playlist" },
-  },
-  "acting-reel": {
-    lede: "A walk-through of on-screen highlights.",
-    youtube: { kind: "playlist", id: "PLa3Wj4jzB_6FG8GcJA41Lx2JGtABeQN5f", title: "Geetika — acting reel playlist" },
-  },
-  "voice-screen": {
-    lede: "Bollywood dubbing and voice work.",
-    bullets: ["Dubbing experience alongside on-camera acting."],
-  },
-
-  "zionaxelle": {
-    lede: "Multimedia universe and personal tech sandbox.",
-    bullets: [
-      "Computer enthusiast with expertise in advanced music-production software and image/video editing.",
-      "Loves to engineer, invent, and ship across tech design, science, sales, and marketing.",
-    ],
-  },
-  "tech-skills": {
-    lede: "From multimedia stacks to offensive cybersecurity.",
-    bullets: [
-      "Advanced music-production software, image editing, video editing.",
-      "Goal: master offensive cybersecurity — APT and RAT research-grade depth.",
-    ],
-  },
-
-  "canvas-art": {
-    lede: "Canvas painter — highly skilled, long practice.",
-    bullets: ["Years of canvas painting; recognized as highly skilled."],
-  },
-  "embroidery": {
-    lede: "Hand embroidery as a meditative second craft.",
-  },
-
-  "ymca-youth-co-op": {
-    lede: "Vice President · YMCA Youth Co-op (NDG–Westmount, 2025).",
-    bullets: [
-      "Led a small team of 15 highly intelligent, ambitious teens.",
-      "Built the co-op from scratch — finances, marketing, and HR run independently.",
-      "Made the co-op's services known across Montréal.",
-    ],
-  },
-  "cultural-integration": {
-    lede: "Rajasthani heritage carried into Montréal classrooms.",
-    bullets: [
-      "Values leadership, communication, and cultural integration.",
-      "Balances fitting in with standing out — uniquely herself.",
-    ],
-  },
-
-  "badminton": { lede: "Recreational badminton — a long-running hobby." },
-  "table-tennis": { lede: "Reflex sport — a steady hobby alongside badminton." },
-  "chess": {
-    lede: "State-level chess qualifier in India.",
-    bullets: ["Qualified at state level in chess tournaments in India."],
-  },
-  "strategic-thinking": {
-    lede: "Strategy as a daily training ground.",
-    bullets: ["Chess tournaments and competitive math sharpen long-horizon decision-making."],
-  },
-
-  "karate": {
-    lede: "Years of karate — multiple trophies and medals.",
-    bullets: ["Won several trophies and medals across martial-arts competitions."],
-  },
-  "abacus": {
-    lede: "Whiz Kids Abacus — National Rank 3.",
-    bullets: ["Third nationally in Whiz Kids Abacus competition."],
-  },
-  "side-quests": {
-    lede: "Random wins across years of school life.",
-    bullets: [
-      "Hundreds of certificates and medals.",
-      "Most-awarded student in her school.",
-    ],
-  },
-  "random-wins": {
-    lede: "School Princess (grades 3 & 5), head girl, TCS IntelliGem top-4, and more.",
-  },
-  "childhood-trophies": {
-    lede: "Olympiads, abacus, martial arts, classical singing — from elementary years onward.",
-  },
-
-  "channels": { lede: "Email, LinkedIn, GitHub — and the contact form above." },
-  "links": { lede: "Acting and music samples." },
-};
-
-/* -------------------- Inner renderers -------------------- */
-
-function YouTubeEmbed({ kind, id, title }: { kind: "video" | "playlist"; id: string; title: string }) {
-  const src = kind === "playlist"
-    ? `https://www.youtube.com/embed/videoseries?list=${id}`
-    : `https://www.youtube.com/embed/${id}`;
-  return (
-    <div className="relative aspect-video w-full max-w-3xl border border-border bg-paper-deep overflow-hidden">
-      <iframe
-        src={src}
-        title={title}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        loading="lazy"
-        className="absolute inset-0 w-full h-full"
-      />
-    </div>
-  );
-}
-
-function FactBlock({ fact }: { fact: TopicFact }) {
-  return (
-    <div className="space-y-5 max-w-3xl">
-      {fact.lede && (
-        <p className="font-display text-xl md:text-2xl text-ink leading-relaxed drop-cap">
-          {fact.lede}
-        </p>
-      )}
-      {fact.bullets && fact.bullets.length > 0 && (
-        <ul className="space-y-2.5">
-          {fact.bullets.map((b, i) => (
-            <li key={i} className="flex gap-3 text-ink-soft text-base leading-relaxed font-accent">
-              <span className="font-mono text-[0.65rem] text-gold mt-1.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-      {fact.youtube && <YouTubeEmbed {...fact.youtube} />}
-    </div>
-  );
-}
-
+/** Visual-first Overview: hero image + tagline + featured trio. */
 function OverviewInner({ cluster }: { cluster: Cluster }) {
+  const trio: BentoItem[] = [
+    {
+      id: "trio-1", size: "md", eyebrow: "Signature win",
+      title: "The headline achievement",
+      blurb: "Replace with the single most impressive thing in this cluster.",
+      meta: "TODO · most recent or biggest",
+    },
+    {
+      id: "trio-2", size: "md", eyebrow: "Origin",
+      title: "Where it started",
+      blurb: "The first spark — when, where, and why this began.",
+      meta: "TODO",
+    },
+    {
+      id: "trio-3", size: "md", eyebrow: "What's next",
+      title: "The next chapter",
+      blurb: "What I'm currently building inside this cluster.",
+      meta: "TODO",
+    },
+  ];
   return (
     <div className="space-y-8">
+      {/* Visual-first hero */}
       <div className="relative overflow-hidden border border-border aspect-[21/9]">
         <img
           src={heroFallback}
@@ -426,114 +130,85 @@ function OverviewInner({ cluster }: { cluster: Cluster }) {
           <h2 className="font-display text-3xl md:text-6xl leading-tight max-w-3xl text-balance">
             {cluster.tagline}
           </h2>
+          <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-paper/60">
+            {cluster.subpages.filter((s) => s.kind === "topic").length} topic threads ·
+            {" "}{cluster.subpages.filter((s) => s.kind !== "topic").length} fractal rails
+          </p>
         </div>
       </div>
+      <Bento items={trio} />
     </div>
   );
 }
 
 function HighlightsInner({ cluster }: { cluster: Cluster }) {
-  const topics = cluster.subpages.filter((s) => s.kind === "topic").slice(0, 6);
+  const items: BentoItem[] = [
+    { id: "h1", size: "xl", eyebrow: "Featured", title: `${cluster.label} — best of`, blurb: "The anchor item. Big, bold, the one I'd lead with in a conversation.", image: heroFallback, meta: "TODO · replace" },
+    { id: "h2", size: "md", eyebrow: "Highlight", title: "Second favourite", blurb: "Strong supporting work — different in tone from the lead." },
+    { id: "h3", size: "md", eyebrow: "Highlight", title: "Recent win", blurb: "Something fresh — within the last 6 months." },
+    { id: "h4", size: "lg", eyebrow: "Highlight", title: "The under-rated one", blurb: "A quieter piece I'm proud of — context unlocks why.", image: heroFallback },
+    { id: "h5", size: "md", eyebrow: "Highlight", title: "Collaboration", blurb: "Made with someone whose taste I trust." },
+    { id: "h6", size: "md", eyebrow: "Highlight", title: "The hard one", blurb: "Almost broke me. Worth it." },
+  ];
+  return <Bento items={items} />;
+}
+
+function EvidenceInner() {
+  const items: BentoItem[] = Array.from({ length: 8 }).map((_, i) => ({
+    id: `e${i}`,
+    size: i === 0 ? "lg" : i === 3 ? "wide" : "sm",
+    eyebrow: "Document",
+    title: `Evidence ${i + 1}`,
+    blurb: "Drop a scan, certificate, transcript, or PDF here.",
+    meta: "TODO · who issued · when",
+  }));
   return (
-    <div className="grid md:grid-cols-2 gap-8">
-      {topics.map((t) => {
-        const fact = TOPIC_FACTS[t.slug];
-        return (
-          <div key={t.slug} className="border-l-2 border-gold/50 pl-5">
-            <p className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-gold mb-2">{t.label}</p>
-            <p className="font-display text-lg text-ink leading-snug">
-              {fact?.lede ?? "More inside the topic rail below."}
-            </p>
-          </div>
-        );
-      })}
+    <div className="space-y-6">
+      <Bento items={items} />
+      <Marginalia>Each evidence item should answer: who issued it, when, what it certifies.</Marginalia>
     </div>
   );
 }
 
-function EvidenceInner({ cluster }: { cluster: Cluster }) {
-  const lines =
-    cluster.slug === "academics"
-      ? [
-          "AP exams (grade 10): Chemistry · Biology · Environmental Science · Physics C Mechanics · Physics C E&M — all passed.",
-          "EMSB ministry (grade 10): 100 math · 100 history · 97 science.",
-          "SOF Olympiad · IOQM · JSO · RMO — high ranks, several cash prizes.",
-          "TCS IntelliGem (India) — top-4 nationally, grade 5.",
-          "Whiz Kids Abacus — National Rank 3.",
-        ]
-      : cluster.slug === "vault"
-      ? [
-          "Most-awarded student in her school — hundreds of trophies, medals, certificates.",
-          "Karate trophies and medals across years.",
-          "Classical singing competition wins.",
-          "TCS IntelliGem top-4 (India).",
-          "Head girl + School Princess (grades 3 & 5).",
-          "AP, EMSB ministry, and Olympiad records.",
-        ]
-      : ["Detailed receipts live inside the topic rails below."];
-  return (
-    <ul className="space-y-2.5 max-w-3xl">
-      {lines.map((l, i) => (
-        <li key={i} className="flex gap-3 text-ink-soft font-accent leading-relaxed">
-          <span className="font-mono text-[0.65rem] text-gold mt-1.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
-          <span>{l}</span>
-        </li>
-      ))}
-    </ul>
-  );
+function MediaInner() {
+  const items: BentoItem[] = [
+    { id: "m1", size: "xl", eyebrow: "Feature", title: "Headline media", blurb: "Photo, reel, or video that captures the work.", image: heroFallback },
+    { id: "m2", size: "md", eyebrow: "Photo", title: "Behind the scenes" },
+    { id: "m3", size: "md", eyebrow: "Audio", title: "Listen to it" },
+    { id: "m4", size: "wide", eyebrow: "Embed", title: "External player slot", blurb: "YouTube · Vimeo · podcast feed · external player." },
+  ];
+  return <Bento items={items} />;
 }
 
-function MediaInner({ cluster }: { cluster: Cluster }) {
-  if (cluster.slug === "works") {
-    return (
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="space-y-3">
-          <p className="label-gold">Acting · Bollywood</p>
-          <YouTubeEmbed kind="playlist" id="PLa3Wj4jzB_6FG8GcJA41Lx2JGtABeQN5f" title="Geetika — acting playlist" />
-        </div>
-        <div className="space-y-3">
-          <p className="label-gold">Hindustani classical · competition</p>
-          <YouTubeEmbed kind="video" id="ztgyTb76WU0" title="Geetika — classical singing performance" />
-        </div>
-      </div>
-    );
-  }
-  return (
-    <p className="font-accent italic text-ink-soft max-w-2xl leading-relaxed">
-      Photos, video, audio, and external embeds connected to {cluster.label}.
-    </p>
-  );
-}
-
-function ReflectionInner({ cluster }: { cluster: Cluster }) {
-  const text =
-    cluster.slug === "about"
-      ? "Despite the long ledger, I work to stay down-to-earth — fitting in while remaining uniquely myself."
-      : cluster.slug === "academics"
-      ? "Self-teaching at university level since age 10 taught me that the syllabus is the floor, never the ceiling."
-      : cluster.slug === "works"
-      ? "Every craft pays the others back — physics tightens my writing, music sharpens my code, leadership funds the time."
-      : cluster.slug === "vault"
-      ? "Awards are receipts, not goals. They prove the curiosity was here."
-      : "If you're reading this, the door is open — start with an email.";
+function ReflectionInner() {
   return (
     <div className="max-w-3xl space-y-6">
-      <p className="font-display text-xl text-ink leading-relaxed drop-cap">{text}</p>
-      <PullQuote>Curiosity is not my hobby. It is my operating system.</PullQuote>
+      <p className="font-display text-xl text-ink leading-relaxed drop-cap">
+        A short reflection paragraph. What was hard, what surprised me, what I want to keep doing,
+        and what I would no longer do the same way.
+      </p>
+      <PullQuote>One honest sentence I learned the hard way.</PullQuote>
     </div>
   );
 }
 
-function TopicInner({ topicLabel, topicSlug }: { topicLabel: string; topicSlug: string }) {
-  const fact = TOPIC_FACTS[topicSlug];
-  if (!fact) {
-    return (
+function TopicInner({ topicLabel }: { topicLabel: string }) {
+  const items: BentoItem[] = [
+    { id: "t1", size: "xl", eyebrow: "Anchor", title: `${topicLabel} — the headline`, blurb: "The single thing someone should know about this thread.", image: heroFallback },
+    { id: "t2", size: "md", eyebrow: "Item", title: "Anchor 2", blurb: "Replace with the real entry." },
+    { id: "t3", size: "md", eyebrow: "Item", title: "Anchor 3", blurb: "Replace with the real entry." },
+    { id: "t4", size: "lg", eyebrow: "Media", title: `${topicLabel} — visual`, blurb: "Photo, video, or scan that grounds this topic.", image: heroFallback },
+    { id: "t5", size: "md", eyebrow: "Item", title: "Anchor 4", blurb: "Replace with the real entry." },
+  ];
+  return (
+    <div className="space-y-6">
       <p className="max-w-3xl text-ink-soft text-lg leading-relaxed font-display italic">
-        More on <strong className="text-ink not-italic">{topicLabel}</strong> coming soon.
+        A clear statement of scope for <strong className="text-ink not-italic">{topicLabel}</strong>: what's in,
+        what's out, and why it deserves its own thread.
       </p>
-    );
-  }
-  return <FactBlock fact={fact} />;
+      <Bento items={items} />
+    </div>
+  );
 }
 
 const KIND_META: Record<string, { icon: IconCmp; label: string; title: (cl: string) => string }> = {
@@ -550,11 +225,11 @@ function renderInner(s: Subpage, c: Cluster): ReactNode {
   switch (s.kind) {
     case "overview":   return <OverviewInner cluster={c} />;
     case "highlights": return <HighlightsInner cluster={c} />;
-    case "evidence":   return <EvidenceInner cluster={c} />;
-    case "media":      return <MediaInner cluster={c} />;
-    case "reflection": return <ReflectionInner cluster={c} />;
+    case "evidence":   return <EvidenceInner />;
+    case "media":      return <MediaInner />;
+    case "reflection": return <ReflectionInner />;
     case "related":    return <RelatedRail clusterSlug={c.slug} />;
-    case "topic":      return <TopicInner topicLabel={s.label} topicSlug={s.slug} />;
+    case "topic":      return <TopicInner topicLabel={s.label} />;
     default:           return null;
   }
 }
@@ -577,7 +252,7 @@ export function FractalPage() {
     }
   }, [sub, c]);
 
-  if (!c) return <Navigate to="/" replace />;
+  if (!c) return <Navigate to="/dashboard" replace />;
 
   const showPortrait = ["about", "works", "contact"].includes(c.slug);
 

@@ -84,9 +84,9 @@ function ClusterSidebar({ clusterSlug }: { clusterSlug: string }) {
       <SidebarContent className="bg-paper">
         <div className={`px-3 py-5 border-b border-border ${collapsed ? "px-2" : "px-4"}`}>
           {!collapsed && (
-            <Link to="/" className="flex items-center gap-2 text-ink-soft hover:text-gold transition-colors">
+            <Link to="/dashboard" className="flex items-center gap-2 text-ink-soft hover:text-gold transition-colors">
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span className="font-mono text-[0.6rem] uppercase tracking-[0.25em]">Home</span>
+              <span className="font-mono text-[0.6rem] uppercase tracking-[0.25em]">Dashboard</span>
             </Link>
           )}
           <div className={`mt-3 flex items-center gap-2.5 ${collapsed ? "justify-center mt-0" : ""}`}>
@@ -226,6 +226,8 @@ export function Breadcrumbs({ cluster, sub }: { cluster: string; sub?: string })
   return (
     <nav className="flex items-center gap-2 text-[0.7rem] font-mono uppercase tracking-[0.2em] text-muted-foreground">
       <Link to="/" className="hover:text-gold flex items-center gap-1.5"><Home className="w-3 h-3" />Home</Link>
+      <ChevronRight className="w-3 h-3" />
+      <Link to="/dashboard" className="hover:text-gold">Dashboard</Link>
       {c && (
         <>
           <ChevronRight className="w-3 h-3" />
