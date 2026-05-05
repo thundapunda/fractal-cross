@@ -133,11 +133,7 @@ export const CLUSTERS: Cluster[] = [
   },
 ];
 
-export const PROOF_CLUSTER = {
-  num: "✦", slug: "proof", label: "Proof of Curiosity", icon: Sparkles,
-  tagline: "Notebook scans, sketches, half-formed ideas.",
-  legacyOverviewPath: "/proof",
-};
+// PROOF_CLUSTER removed.
 
 export const findCluster = (slug: string) => CLUSTERS.find((c) => c.slug === slug);
 export const findSubpage = (cluster: Cluster, slug: string) =>

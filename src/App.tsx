@@ -4,8 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
-import Proof from "./pages/Proof.tsx";
 import { FractalPage } from "./components/FractalPage";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { LEGACY_REDIRECTS } from "./data/clusters";
@@ -22,13 +20,11 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/proof" element={<Proof />} />
-          {/* Legacy flat URLs → cluster overview */}
+          <Route path="/dashboard" element={<Navigate to="/" replace />} />
+          <Route path="/proof" element={<Navigate to="/" replace />} />
           {Object.entries(LEGACY_REDIRECTS).map(([from, to]) => (
             <Route key={from} path={from} element={<Navigate to={to} replace />} />
           ))}
-          {/* Cluster + subpage */}
           <Route path="/:cluster" element={<FractalPage />} />
           <Route path="/:cluster/:sub" element={<FractalPage />} />
           <Route path="*" element={<NotFound />} />
