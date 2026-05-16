@@ -119,7 +119,7 @@ export const SiteNav = () => {
 };
 
 export const SiteFooter = forwardRef<HTMLElement>((_, ref) => (
-  <footer ref={ref} className="force-light bg-navy-deep text-paper mt-32 relative overflow-hidden grain">
+  <footer ref={ref} className="force-light bg-navy-deep text-paper relative overflow-hidden grain">
     <div className="container py-20 grid md:grid-cols-4 gap-12">
       <div className="md:col-span-2">
         <p className="label-gold mb-4">Colophon</p>
