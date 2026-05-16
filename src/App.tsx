@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
-import Proof from "./pages/Proof.tsx";
 import { FractalPage } from "./components/FractalPage";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { LEGACY_REDIRECTS } from "./data/clusters";
@@ -23,7 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/proof" element={<Proof />} />
+          
           {/* Legacy flat URLs → cluster overview */}
           {Object.entries(LEGACY_REDIRECTS).map(([from, to]) => (
             <Route key={from} path={from} element={<Navigate to={to} replace />} />
