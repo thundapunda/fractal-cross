@@ -45,6 +45,7 @@ const CELL_LAYOUTS = {
     "col-span-2 row-span-1",
     "col-span-1 row-span-2",
     "col-span-2 row-span-1",
+    "col-span-2 row-span-1",
   ],
 } as const;
 
@@ -139,19 +140,72 @@ function MosaicTile({ topic, span, tint, index }: { topic: TopicData; span: stri
   );
 }
 
+function SplitTile({ left, right, tintLeft, tintRight, index }: { left: TopicData; right: TopicData; tintLeft: string; tintRight: string; index: number }) {
+  return (
+    <div className="col-span-2 row-span-1 grid grid-cols-2 gap-2 overflow-hidden border border-border bg-paper fancy-tile">
+      <div className="relative overflow-hidden min-h-0">
+        <div className={`absolute inset-0 bg-gradient-to-br ${tintLeft}`} />
+        <div className="absolute inset-0">
+          <MediaFrame topic={left} />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/75 via-navy-deep/20 to-transparent" />
+        <div className="absolute inset-0 p-4 flex flex-col justify-between">
+          <span className="font-mono text-[0.6rem] uppercase tracking-[0.28em] text-paper/80">{String(index + 1).padStart(2, "0")}</span>
+          <div className="space-y-1.5">
+            <h3 className="font-display leading-[0.95] text-paper text-lg md:text-xl line-clamp-2">{left.label}</h3>
+            <p className="font-sans italic text-[0.72rem] md:text-[0.8rem] leading-snug text-paper/82 line-clamp-2">{left.blurb}</p>
+          </div>
+        </div>
+      </div>
+      <div className="relative overflow-hidden min-h-0">
+        <div className={`absolute inset-0 bg-gradient-to-br ${tintRight}`} />
+        <div className="absolute inset-0">
+          <MediaFrame topic={right} />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/75 via-navy-deep/20 to-transparent" />
+        <div className="absolute inset-0 p-4 flex flex-col justify-between">
+          <span className="font-mono text-[0.6rem] uppercase tracking-[0.28em] text-paper/80">{String(index + 2).padStart(2, "0")}</span>
+          <div className="space-y-1.5">
+            <h3 className="font-display leading-[0.95] text-paper text-lg md:text-xl line-clamp-2">{right.label}</h3>
+            <p className="font-sans italic text-[0.72rem] md:text-[0.8rem] leading-snug text-paper/82 line-clamp-2">{right.blurb}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function MoodMosaic({ topics }: { topics: TopicData[] }) {
+  const splitIndex = topics.findIndex((topic) => topic.slug === "childhood-trophies");
   return (
     <section className="px-4 md:px-12 pb-4 overflow-hidden">
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-[118px] md:auto-rows-[138px] lg:auto-rows-[156px] gap-2.5 md:gap-3.5 lg:gap-4 [grid-auto-flow:dense]">
-        {topics.map((topic, index) => (
-          <MosaicTile
-            key={topic.slug}
-            topic={topic}
-            index={index}
-            span={CELL_LAYOUTS.lg[index % CELL_LAYOUTS.lg.length]}
-            tint={CELL_TINTS[index % CELL_TINTS.length]}
-          />
-        ))}
+        {topics.map((topic, index) => {
+          if (topic.slug === "childhood-trophies" && splitIndex >= 0 && splitIndex + 1 < topics.length) {
+            return (
+              <SplitTile
+                key={topic.slug}
+                left={topics[splitIndex]}
+                right={topics[splitIndex + 1]}
+                index={splitIndex}
+                tintLeft={CELL_TINTS[splitIndex % CELL_TINTS.length]}
+                tintRight={CELL_TINTS[(splitIndex + 1) % CELL_TINTS.length]}
+              />
+            );
+          }
+          if (splitIndex >= 0 && index === splitIndex + 1) {
+            return null;
+          }
+          return (
+            <MosaicTile
+              key={topic.slug}
+              topic={topic}
+              index={index}
+              span={CELL_LAYOUTS.lg[index % CELL_LAYOUTS.lg.length]}
+              tint={CELL_TINTS[index % CELL_TINTS.length]}
+            />
+          );
+        })}
       </div>
     </section>
   );
