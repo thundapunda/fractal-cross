@@ -66,7 +66,7 @@ function EssayPhoto({ src, alt, caption, align = "right" }: { src: string; alt: 
     </figure>
   );
   return (
-    <figure className={`my-1 mb-4 ${align === "right" ? "float-right ml-6" : "float-left mr-6"} w-36 md:w-52`} style={{ shapeOutside: "border-box" }}>
+    <figure className={`my-1 mb-4 ${align === "right" ? "float-right ml-6" : "float-left mr-6"} w-36 md:w-52`} style={{ shapeOutside: "border-box" } as React.CSSProperties}>
       <div className="relative overflow-hidden border border-border/25 bg-paper-deep" style={{ aspectRatio: "4/5" }}>
         <img src={src} alt={alt} className="absolute inset-0 w-full h-full object-cover" />
         <span className="absolute inset-1 border border-paper/8 pointer-events-none" />
@@ -76,7 +76,7 @@ function EssayPhoto({ src, alt, caption, align = "right" }: { src: string; alt: 
   );
 }
 
-function Essay({ innerRef }: { innerRef: React.RefObject<HTMLDivElement> }) {
+function Essay({ innerRef }: { innerRef: React.RefObject<HTMLDivElement | null> }) {
   return (
     <div ref={innerRef} className="flex-1 min-h-0 essay-scroll" style={{ overflowY: "hidden" }}>
       <article className="essay-body pr-4 pb-20" style={{ maxWidth: "740px", margin: "0 auto" }}>
@@ -271,7 +271,7 @@ function TopicCard({
 function ProfileCard({
   ep, essayRef, transform,
 }: {
-  ep: number; essayRef: React.RefObject<HTMLDivElement>; transform: string;
+  ep: number; essayRef: React.RefObject<HTMLDivElement | null>; transform: string;
 }) {
   const bOp = lerp(0.18, 0.7, ep);
   const spr  = lerp(0, 90, ep);
@@ -307,7 +307,7 @@ function ProfileCard({
         }}
       >
         {/* Corner brackets */}
-        {[["top-3.5 left-3.5 border-t border-l", ep], ["top-3.5 right-3.5 border-t border-r", ep], ["bottom-3.5 left-3.5 border-b border-l", ep], ["bottom-3.5 right-3.5 border-b border-r", ep]].map(([cls], k) => (
+        {(["top-3.5 left-3.5 border-t border-l", "top-3.5 right-3.5 border-t border-r", "bottom-3.5 left-3.5 border-b border-l", "bottom-3.5 right-3.5 border-b border-r"] as const).map((cls, k) => (
           <span key={k} className={`absolute w-4 h-4 ${cls} border-gold/60`} style={{ opacity: ep * 0.65 }} />
         ))}
 
