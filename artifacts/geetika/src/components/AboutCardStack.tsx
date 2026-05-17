@@ -403,7 +403,7 @@ export function AboutCardStack({ topics }: { topics: TopicData[] }) {
   const glowOp = Math.max(lerp(0, 0.1, ep), lerp(0, 0.06, progress));
 
   return (
-    <div ref={wrapperRef} className="relative" style={{ height: `${70 + topics.length * 65}vh` }}>
+    <div ref={wrapperRef} className="relative" style={{ height: `${92 + topics.length * 118}vh` }}>
       <div className="sticky top-0 w-full overflow-hidden" style={{ height: "100vh" }}>
         {/* Ambient radial backdrop */}
         <div className="pointer-events-none absolute inset-0" style={{
@@ -420,8 +420,8 @@ export function AboutCardStack({ topics }: { topics: TopicData[] }) {
 
         {/* Topic cards — stacked on top */}
         {topics.map((topic, i) => {
-          const slotStart  = READ_END + i * CARD_ZONE;
-          const placingEnd = slotStart + CARD_ZONE * 0.38;
+          const slotStart  = CARD_STACK_START + i * (CARD_ZONE * CARD_STACK_SPAN);
+          const placingEnd = slotStart + CARD_ZONE * 0.28;
 
           // Placement progress [0,1]
           let pp = 0;
@@ -441,7 +441,7 @@ export function AboutCardStack({ topics }: { topics: TopicData[] }) {
 
           if (!isPlaced && pp === 0) {
             // Waiting — invisible, positioned at entry
-            opacity = 0; tx = 0; ty = -60; rot = ENTRY[i % ENTRY.length].angle; scale = 0.92;
+            opacity = 0; tx = 0; ty = -96; rot = ENTRY[i % ENTRY.length].angle; scale = 0.88;
           } else if (pp < 1) {
             // Flying in
             const e = ENTRY[i % ENTRY.length];
@@ -449,7 +449,7 @@ export function AboutCardStack({ topics }: { topics: TopicData[] }) {
             tx = lerp(e.x, 0, ppE);
             ty = lerp(e.y, 0, ppE);
             rot = lerp(e.angle, 0, ppE);
-            scale = lerp(0.92, 1, ppE);
+            scale = lerp(0.88, 1, ppE);
           } else if (isTop) {
             // Current top — flat
             opacity = 1; tx = 0; ty = 0; rot = 0; scale = 1;
@@ -461,7 +461,7 @@ export function AboutCardStack({ topics }: { topics: TopicData[] }) {
             tx = pk.x * d;
             ty = pk.y * d;
             rot = pk.angle * d;
-            scale = 1 - d * 0.016;
+            scale = 1 - d * 0.018;
           }
 
           return (
