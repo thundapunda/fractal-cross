@@ -105,6 +105,7 @@ const FEATURED: BentoItem[] = [
     blurb: "A multimedia universe I built from scratch.", meta: "Cluster 08 · Tech",
   },
 ];
+// explicit — no randomize so lg/md sizes render as intended
 
 /* -------------------- RANDOM WINS / CURIOSITIES TEASER -------------------- */
 const CURIOSITIES: BentoItem[] = [
@@ -115,6 +116,7 @@ const CURIOSITIES: BentoItem[] = [
   { id: "c-tt", size: "sm", eyebrow: "Court", title: "Table Tennis", blurb: "Reflex over reach.", meta: "TODO" },
   { id: "c-misc", size: "wide", eyebrow: "Side quests", title: "And a few oddities I'm proud of", blurb: "Random certificates, half-wins, things that don't fit a category but absolutely shaped me.", meta: "Cluster 15 · Curiosities — full archive" },
 ];
+// explicit — no randomize: row1=karate+abacus(md+md), row2=chess+bad+tt(sm+sm+sm), row3=misc(wide)
 
 const Index = () => {
   useReveal();
@@ -261,7 +263,7 @@ const Index = () => {
             </p>
           </div>
           <div data-reveal>
-            <Bento items={FEATURED} randomize />
+            <Bento items={FEATURED} />
           </div>
         </div>
       </section>
@@ -325,7 +327,7 @@ const Index = () => {
             </Link>
           </div>
           <div data-reveal>
-            <Bento items={CURIOSITIES} randomize />
+            <Bento items={CURIOSITIES} />
           </div>
         </div>
       </section>

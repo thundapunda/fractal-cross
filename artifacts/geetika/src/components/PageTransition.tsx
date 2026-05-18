@@ -51,7 +51,8 @@ export function PageTransition() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const lastPath = useRef<string | null>(null);
-  const [phase, setPhase] = useState<Phase>("idle");
+  // Start covered so page is never visible before the intro animation lifts
+  const [phase, setPhase] = useState<Phase>("covered");
   const [firstRender, setFirstRender] = useState(true);
   const [destLabel, setDestLabel] = useState("");
   const [shrinkLabel, setShrinkLabel] = useState(false);
@@ -127,8 +128,10 @@ export function PageTransition() {
   useEffect(() => {
     const handler = (e: Event) => {
       const { to, reload } = (e as CustomEvent<{ to: string; reload?: boolean }>).detail;
+      // Same-page click: skip transition entirely to avoid double animation / hang
+      if (to === pathname && !reload) return;
       if (to === pathname) {
-        runTransition(to, reload ?? false);
+        runTransition(to, true);
         return;
       }
       pendingDest.current = to;
@@ -145,31 +148,25 @@ export function PageTransition() {
         (pathname.replace("/", "").replace(/^\w/, (c) => c.toUpperCase()) || "Home");
       setDestLabel(label);
       setShrinkLabel(false);
-      setPhase("idle");
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => setPhase("dripping"));
-      });
-
+      // Already "covered" from initial state — skip drip, just hold then lift
       timers.current = [
-        window.setTimeout(() => setPhase("covered"), drip),
         window.setTimeout(() => {
           lastPath.current = pathname;
           setShrinkLabel(true);
           setPhase("lifting");
-        }, drip + hold),
+        }, INTRO_HOLD),
         window.setTimeout(() => {
           setPhase("idle");
           setShrinkLabel(false);
           setFirstRender(false);
-        }, drip + hold + lift),
+        }, INTRO_HOLD + INTRO_LIFT),
       ];
       return () => timers.current.forEach(window.clearTimeout);
     }
     if (pathname === lastPath.current) return;
     lastPath.current = pathname;
     return;
-  }, [pathname, firstRender, drip, hold, lift]);
+  }, [pathname, firstRender]);
 
   const panelTranslateY =
     phase === "idle" ? -OFFSCREEN
