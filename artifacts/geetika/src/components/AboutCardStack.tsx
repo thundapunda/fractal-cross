@@ -233,7 +233,7 @@ function Essay() {
         </p>
       </section>
 
-      <section style={{ marginBottom: "1rem" }}>
+      <section style={{ marginBottom: "0" }}>
         <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(13px,1.1vw,15px)", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "hsl(43 70% 58%)", marginBottom: "1rem", opacity: 0.85 }}>VI. What I Am Building</h3>
         <EssayPhoto src={heroPortrait} alt="Paper and process" caption="Every claim has evidence here" align="right" />
         <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(15px,1.25vw,17px)", lineHeight: 1.82, color: "hsl(220 15% 78%)", marginBottom: "1rem" }}>
@@ -394,7 +394,7 @@ export function AboutCardStack({ topics: _topics }: { topics: TopicData[] }) {
                   style={{
                     flex: 1,
                     overflow: "hidden",
-                    padding: `0 ${cardPad}px ${cardPad}px`,
+                    padding: `0 ${cardPad}px 0`,
                   }}
                 >
                   <div
@@ -437,6 +437,7 @@ export function AboutCardStack({ topics: _topics }: { topics: TopicData[] }) {
             gap: "clamp(10px, 1.5vw, 20px)",
             flexDirection: "row",
             flexWrap: "wrap",
+            justifyContent: "center",
           }}
         >
           {LIGHTBOX_CARDS.map((card, i) => (
